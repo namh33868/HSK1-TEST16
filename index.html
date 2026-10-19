@@ -15,7 +15,7 @@ header{background:var(--paper);border-bottom:1px solid var(--line);padding:10px 
 .logo{width:36px;height:36px;border-radius:10px;background:var(--red);color:white;display:grid;place-items:center;font-size:16px;font-weight:800;box-shadow:0 3px 0 #80271f}
 .eyebrow{font-size:9px;letter-spacing:.1em;font-weight:800;color:var(--red);text-transform:uppercase}
 .title{font-size:16px;font-weight:850;letter-spacing:-.03em;margin:1px 0}
-.wrap{max-width:1050px;margin:8px auto;padding:0 10px calc(24px + env(safe-area-inset-bottom));display:grid;grid-template-columns:1fr;gap:12px}
+.wrap{max-width:1050px;margin:8px auto;padding:0 10px calc(32px + env(safe-area-inset-bottom));display:grid;grid-template-columns:1fr;gap:12px}
 .panel,.card{background:var(--paper);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow)}
 .side{padding:12px}
 .side h2{font-size:13px;margin:0 0 8px;font-weight:750}
@@ -99,6 +99,8 @@ mark.hl{background:#ffe9a8;color:#7a4b00;border-radius:4px;padding:0 2px}
 .typein:focus{outline:3px solid #79b8df;border-color:#9cc9e5}
 .chiprow{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
 .hidden{display:none!important}
+.scroll-top-btn{position:fixed;bottom:24px;right:20px;width:42px;height:42px;border-radius:50%;background:var(--red);color:white;border:none;display:grid;place-items:center;font-size:20px;font-weight:bold;box-shadow:0 4px 14px rgba(0,0,0,0.25);z-index:99;opacity:0;pointer-events:none;transition:opacity 0.3s, transform 0.3s;transform:translateY(10px)}
+.scroll-top-btn.show{opacity:1;pointer-events:auto;transform:translateY(0)}
 </style>
 </head>
 <body>
@@ -161,6 +163,8 @@ mark.hl{background:#ffe9a8;color:#7a4b00;border-radius:4px;padding:0 2px}
   </main>
 </div>
 
+<button class="scroll-top-btn" id="scrollTopBtn" title="Lên đầu trang">↑</button>
+
 <script>
 const lessons = [
 {id:1,title:"Chào hỏi & giới thiệu",desc:"Chào hỏi, hỏi tên, quốc tịch và làm quen.",qs:[
@@ -174,7 +178,7 @@ const lessons = [
 {type:"context",label:"Điền từ",q:"我今年二十____。",py:"Wǒ jīnnián èrshí ____.",options:[["岁","suì — tuổi"],["个","gè — lượng từ chung"],["口","kǒu — lượng từ người trong gia đình"],["本","běn — lượng từ sách"]],answer:0,why:"岁 dùng để nói tuổi: 二十岁 = 20 tuổi."},
 {type:"picture",label:"Nhìn hình đoán từ",picture:["👨‍👩‍👧","🏠","Một gia đình"],q:"Hình này gợi ý từ nào?",options:[["家","jiā — nhà, gia đình"],["水","shuǐ — nước"],["书","shū — sách"],["车","chē — xe"]],answer:0,why:"家 nghĩa là nhà hoặc gia đình; hình minh họa gia đình ở nhà."},
 {type:"reply",label:"Chọn câu đáp",q:"A: 你妈妈多大？ B: ____。",py:"A: Nǐ māma duō dà? B: ____.",options:[["她四十五岁。","Tā sìshíwǔ suì. — Bà ấy 45 tuổi."],["她是老师吗？","Tā shì lǎoshī ma? — Bà ấy là giáo viên à?"],["我去学校。","Wǒ qù xuéxiào. — Tôi đi trường."],["今天星期三。","Jīntiān xīngqīsān. — Hôm nay thứ Tư."]],answer:0,why:"多大 hỏi tuổi. Câu đáp tự nhiên đưa ra tuổi của mẹ."},
-{type:"meaning",label:"Hiểu câu thực tế",q:"“他没有哥哥，有一个姐姐。” nghĩa là gì?",py:"Tā méiyǒu gēge, yǒu yí ge jiějie.",options:[["Anh ấy không có anh trai, có một chị gái.",""],["Anh ấy có một anh trai và một chị gái.",""],["Anh ấy không có gia đình.",""],["Chị gái của anh ấy là giáo viên.",""]],answer:0,why:"沒有 = không có; 哥哥 = anh trai; 一个姐姐 = một chị gái."}]},
+{type:"meaning",label:"Hiểu câu thực tế",q:"“他没有哥哥，有一个姐姐。” nghĩa là gì?",py:"Tā méiyǒu gēge, yǒu yí ge jiějie.",options:[["Anh ấy không có anh trai, có một chị gái.",""],["Anh ấy có một anh trai và một chị gái.",""],["Anh ấy không có gia đình.",""],["Chị gái của anh ấy là giáo viên.",""]],answer:0,why:"没有 = không có; 哥哥 = anh trai; 一个姐姐 = một chị gái."}]},
 {id:3,title:"Ngày tháng & thời gian",desc:"Hỏi hôm nay ngày mấy, thứ mấy và mấy giờ.",qs:[
 {type:"dialogue",label:"Đọc hội thoại",dialogue:[["小赵","今天星期几？","Jīntiān xīngqī jǐ?","Hôm nay thứ mấy?"],["小周","今天星期五。明天星期六。","Jīntiān xīngqīwǔ. Míngtiān xīngqīliù.","Hôm nay thứ Sáu. Ngày mai thứ Bảy." ]],q:"明天星期几？",py:"Míngtiān xīngqī jǐ?",options:[["星期四","xīngqīsì — thứ Năm"],["星期五","xīngqīwǔ — thứ Sáu"],["星期六","xīngqīliù — thứ Bảy"],["星期日","xīngqīrì — Chủ nhật"]],answer:2,why:"Người nói cho biết hôm nay thứ Sáu và ngày mai thứ Bảy."},
 {type:"context",label:"Điền từ",q:"现在三点____，我们三点半见。",py:"Xiànzài sān diǎn ____, wǒmen sān diǎn bàn jiàn.",options:[["一刻","yí kè — 15 phút"],["星期","xīngqī — tuần"],["昨天","zuótiān — hôm qua"],["岁","suì — tuổi"]],answer:0,why:"三点一刻 là 3 giờ 15. 三点半 là 3 giờ rưỡi."},
@@ -239,7 +243,7 @@ const lessons = [
 {type:"dialogue",label:"Đọc hội thoại",dialogue:[["小王","你怎么了？不舒服吗？","Nǐ zěnme le? Bù shūfu ma?","Bạn sao vậy? Không khỏe à?"],["小李","我有一点儿头疼，想回家休息。","Wǒ yǒu yìdiǎnr tóuténg, xiǎng huí jiā xiūxi.","Tôi hơi đau đầu, muốn về nhà nghỉ." ]],q:"小李为什么想回家？",py:"Xiǎo Lǐ wèishénme xiǎng huí jiā?",options:[["他头疼。","Tā tóuténg. — Anh ấy đau đầu."],["他要买衣服。","Tā yào mǎi yīfu. — Anh ấy muốn mua quần áo."],["他想看电影。","Tā xiǎng kàn diànyǐng. — Anh ấy muốn xem phim."],["他要去上课。","Tā yào qù shàngkè. — Anh ấy muốn đi học."]],answer:0,why:"Lý do được nêu là 有一点儿头疼 — hơi đau đầu."},
 {type:"context",label:"Đoán từ theo ngữ cảnh",q:"我很____，请给我一杯水。",py:"Wǒ hěn ____, qǐng gěi wǒ yì bēi shuǐ.",options:[["渴","kě — khát"],["贵","guì — đắt"],["远","yuǎn — xa"],["忙","máng — bận"]],answer:0,why:"Xin một cốc nước là manh mối cho 渴 — khát."},
 {type:"picture",label:"Nhìn hình chọn câu",picture:["🥱","🛏️","Ngáp và giường ngủ"],q:"Câu nào phù hợp nhất?",options:[["我很困，想睡觉。","Wǒ hěn kùn, xiǎng shuìjiào. — Tôi buồn ngủ, muốn ngủ."],["我很饿，想吃饭。","Wǒ hěn è, xiǎng chī fàn. — Tôi đói, muốn ăn."],["我很热，想喝水。","Wǒ hěn rè, xiǎng hē shuǐ. — Tôi nóng, muốn uống nước."],["我很高兴，想唱歌。","Wǒ hěn gāoxìng, xiǎng chànggē. — Tôi vui, muốn hát."]],answer:0,why:"Ngáp và giường ngủ gợi ý buồn ngủ và muốn ngủ."},
-{type:"reply",label:"Chọn lời đáp",q:"A: 你饿不饿？ B: ____。",py:"A: Nǐ è bu è? B: ____.",options:[["有一点儿，我们去吃饭吧。","Yǒu yìdiǎnr, wǒmen qù chī fàn ba. — Hơi đói, mình đi ăn nhé."],["我姓赵。","Wǒ xìng Zhào. — Tôi họ Triệu."],["今天星期五。","Jīntiān xīngqīwǔ. — Hôm nay thứ Sáu."],["在桌子上。","Zài zhuōzi shàng. — Ở trên bàn."]],answer:0,why:"饿不饿 hỏi có đói không; đáp án trả lời mức độ đói và đề nghị đi ăn."},
+{type:"reply",label:"Chọn lời đáp",q:"A: 你饿不饿？ B: ____。",py:"A: Nǐ è bu è? B: ____.",options:[["有一点儿，我们去吃饭吧。","Yǒu yìdiǎnr, wǒmen qù chī fàn ba. — Hơi đói, mình đi ăn nhé."],["我姓赵。","Wǒ xìng Zhào. — Tôi họ Triệu."],["今天星期五。","Jīntiān xīngqīsǔn. — Hôm nay thứ Sáu."],["在桌子上。","Zài zhuōzi shàng. — Ở trên bàn."]],answer:0,why:"饿不饿 hỏi có đói không; đáp án trả lời mức độ đói và đề nghị đi ăn."},
 {type:"meaning",label:"Chọn nghĩa đúng",q:"“你等一下，我去给你买药。” nghĩa là gì?",py:"Nǐ děng yíxià, wǒ qù gěi nǐ mǎi yào.",options:[["Bạn đợi một chút, tôi đi mua thuốc cho bạn.",""],["Bạn đi trước, tôi về nhà ngủ.",""],["Tôi mua cho bạn một quyển sách.",""],["Bạn có muốn uống trà không?",""]],answer:0,why:"等一下 = đợi một chút; 买药 = mua thuốc."}]}
 ,{id:14,title:"Bạn bè & sở thích",desc:"Nói về thích/không thích và hoạt động giải trí.",qs:[
 {type:"dialogue",label:"Đọc hội thoại",dialogue:[["小安","你喜欢看电影吗？","Nǐ xǐhuan kàn diànyǐng ma?","Bạn thích xem phim không?"],["小美","喜欢。我也喜欢听音乐。","Xǐhuan. Wǒ yě xǐhuan tīng yīnyuè.","Thích. Tôi cũng thích nghe nhạc." ]],q:"小美喜欢做什么？",py:"Xiǎo Měi xǐhuan zuò shénme?",options:[["看电影和听音乐","kàn diànyǐng hé tīng yīnyuè — xem phim và nghe nhạc"],["踢足球和游泳","tī zúqiú hé yóuyǒng — đá bóng và bơi"],["买衣服和做饭","mǎi yīfu hé zuò fàn — mua quần áo và nấu ăn"],["看医生和睡觉","kàn yīshēng hé shuìjiào — đi khám và ngủ"]],answer:0,why:"Cô ấy nói thích xem phim và cũng thích nghe nhạc."},
@@ -308,7 +312,7 @@ const extraQs = {
 ],
 6:[
 {type:"build",label:"Ghép câu",q:"Ghép câu hỏi: “Xin hỏi, bệnh viện ở đâu?”",words:["请问","医院","在","哪儿"],answer:"请问医院在哪儿？",why:"请问 mở đầu câu hỏi lịch sự; 在哪儿 hỏi vị trí."},
-{type:"type",label:"Gõ đáp án",q:"Viết bằng tiếng Trung: “I đi học bằng xe buýt.”",hint:"我坐 + 公共汽车 + 去学校",accept:["我坐公共汽车去学校","我坐公共汽车去学校。","wozuogonggongqichequxuexiao"],answerText:"我坐公共汽车去学校。（Wǒ zuò gōnggòng qìchē qù xuéxiào.）",why:"坐 + phương tiện + 去 + địa điểm."},
+{type:"type",label:"Gõ đáp án",q:"Viết bằng tiếng Trung: “Tôi đi học bằng xe buýt.”",hint:"我坐 + 公共汽车 + 去学校",accept:["我坐公共汽车去学校","我坐公共汽车去学校。","wozuogonggongqichequxuexiao"],answerText:"我坐公共汽车去学校。（Wǒ zuò gōnggòng qìchē qù xuéxiào.）",why:"坐 + phương tiện + 去 + địa điểm."},
 {type:"tf",label:"Đúng hay sai",text:"小李：请问，医院在哪儿？\n路人：在学校旁边。一直往前走，然后左转。",q:"Nhận định: “Bệnh viện ở phía sau trường học.”",answer:1,why:"Người chỉ đường nói 在学校旁边 — ở bên cạnh trường học."}
 ],
 7:[
@@ -375,7 +379,7 @@ function flatLesson(id){return lessons.find(x=>x.id===id).qs.map((q,i)=>({...q,l
 
 function buildLessonList(){
  const el=$("#lessonList");el.innerHTML="";
- lessons.forEach(l=>{const b=document.createElement("button");b.className="lesson-btn"+(!examMode&&currentLesson===l.id?" active":"");b.innerHTML=`<span class="num">${String(l.id).padStart(2,"0")}</span><span>${l.title}</span>`;b.onclick=()=>{examMode=false;randomMode=false;finished=false;currentLesson=l.id;questions=flatLesson(l.id);index=0;answers={};render();};el.appendChild(b);});
+ lessons.forEach(l=>{const b=document.createElement("button");b.className="lesson-btn"+(!examMode&&currentLesson===l.id?" active":"");b.innerHTML=`<span class="num">${String(l.id).padStart(2,"0")}</span><span>${l.title}</span>`;b.onclick=()=>{examMode=false;randomMode=false;finished=false;currentLesson=l.id;questions=flatLesson(l.id);index=0;answers={};render();window.scrollTo({top:0,behavior:'smooth'});};el.appendChild(b);});
 }
 
 function visiblePy(s){return showPy?`<div class="py">${esc(s||"")}</div>`:"";}
@@ -435,7 +439,7 @@ function render(){
   const opts=q.type==="tf"?tfOpts:q.options;
   html+='<div class="options">';
   opts.forEach((o,i)=>{let cls="option";if(selected!==undefined){if(i===q.answer)cls+=" correct";else if(i===selected)cls+=" wrong";}
-  html+=`<button class="${cls}" data-opt="${i}" ${selected!==undefined?"disabled":""}><span class="letter">${letters[i]}</span><span><span class="opt-cn">${esc(o[0])}</span>${o[1]?`<div class="opt-sub">${esc(o[1])}</div>`:""}</span></button>`});
+  html+=`<button class="${cls}" data-opt="${i}" ${selected!==undefined?"disabled":""}><span class="letter">${letters[i]}</span><span><span class="opt-cn">${esc(o[0])}</span>${showVi&&o[1]?`<div class="opt-sub">${esc(o[1])}</div>`:""}</span></button>`});
   html+='</div>';
  }
  if(selected!==undefined){
@@ -458,8 +462,8 @@ function render(){
   if(inp)inp.onkeydown=e=>{if(e.key==="Enter")submit();};
   if($("#checkBtn"))$("#checkBtn").onclick=submit;
  }
- $("#prevBtn").onclick=()=>{if(index>0){index--;render();}};
- $("#nextBtn").onclick=()=>{if(index<questions.length-1){index++;render();}else{finished=true;render();}};
+ $("#prevBtn").onclick=()=>{if(index>0){index--;render();window.scrollTo({top:200,behavior:'smooth'});}};
+ $("#nextBtn").onclick=()=>{if(index<questions.length-1){index++;render();window.scrollTo({top:200,behavior:'smooth'});}else{finished=true;render();window.scrollTo({top:200,behavior:'smooth'});}};
  if(view==="dict")renderDict();
 }
 
@@ -467,14 +471,16 @@ function renderResults(){
  const correct=questions.filter(q=>isCorrect(q,answers[q.key])).length, total=questions.length, pct=Math.round(correct/total*100);
  let message=pct>=90?"Rất tốt! Bạn đã nắm được phần lớn ngữ cảnh.":pct>=70?"Ổn rồi. Ôn lại các câu sai để nhớ cách dùng tự nhiên hơn.":"Cứ bình tĩnh ôn lại từng hội thoại, chú ý từ khóa thời gian, địa điểm và hành động.";
  $("#questionArea").innerHTML=`<section class="card results"><div class="eyebrow">Kết quả ${examMode?"thi thử":"luyện tập"}</div><div class="score">${correct}/${total}</div><h2>${pct}% chính xác</h2><p>${message}</p><div class="result-breakdown"><span>Đúng: ${correct}</span><span>Sai/chưa làm: ${total-correct}</span><span>Chủ đề: ${examMode?"Tổng hợp":esc(lessons.find(l=>l.id===currentLesson).title)}</span></div><button class="btn primary" id="reviewBtn">Xem lại từng câu</button> <button class="btn" id="againBtn">Làm lại</button></section>`;
- $("#reviewBtn").onclick=()=>{finished=false;index=0;render();};
- $("#againBtn").onclick=()=>{answers={};index=0;finished=false;render();};
+ $("#reviewBtn").onclick=()=>{finished=false;index=0;render();window.scrollTo({top:200,behavior:'smooth'});};
+ $("#againBtn").onclick=()=>{answers={};index=0;finished=false;render();window.scrollTo({top:200,behavior:'smooth'});};
 }
 
+// Cải tiến sự kiện toggle để phản hồi ngay lập tức trên mobile
 $("#pinyinToggle").onchange=e=>{showPy=e.target.checked;render();};
 $("#translationToggle").onchange=e=>{showVi=e.target.checked;render();};
-$("#mixBtn").onclick=()=>{randomMode=true;examMode=false;currentLesson=1;questions=lessons.flatMap(l=>flatLesson(l.id)).sort(()=>Math.random()-.5).slice(0,10);index=0;answers={};finished=false;$("#modePill").textContent="Luyện ngẫu nhiên";render();};
-$("#examBtn").onclick=()=>{randomMode=false;examMode=true;currentLesson=1;questions=lessons.flatMap(l=>flatLesson(l.id)).sort(()=>Math.random()-.5).slice(0,20);index=0;answers={};finished=false;render();};
+
+$("#mixBtn").onclick=()=>{randomMode=true;examMode=false;currentLesson=1;questions=lessons.flatMap(l=>flatLesson(l.id)).sort(()=>Math.random()-.5).slice(0,10);index=0;answers={};finished=false;$("#modePill").textContent="Luyện ngẫu nhiên";render();window.scrollTo({top:0,behavior:'smooth'});};
+$("#examBtn").onclick=()=>{randomMode=false;examMode=true;currentLesson=1;questions=lessons.flatMap(l=>flatLesson(l.id)).sort(()=>Math.random()-.5).slice(0,20);index=0;answers={};finished=false;render();window.scrollTo({top:0,behavior:'smooth'});};
 $("#resetBtn").onclick=()=>{if(confirm("Làm lại từ đầu? Các đáp án hiện tại sẽ bị xóa.")){answers={};draft={};index=0;finished=false;render();}};
 
 function switchView(v){
@@ -485,6 +491,7 @@ function switchView(v){
  $("#quizTools").classList.toggle("hidden",v!=="quiz");
  $("#dictView").classList.toggle("hidden",v!=="dict");
  if(v==="dict")renderDict();
+ window.scrollTo({top:0,behavior:'smooth'});
 }
 
 function renderDict(){
@@ -509,6 +516,18 @@ $("#tabQuiz").onclick=()=>switchView("quiz");
 $("#tabDict").onclick=()=>switchView("dict");
 $("#searchInput").oninput=e=>{searchQuery=e.target.value;if(view!=="dict")switchView("dict");else renderDict();};
 $("#searchInput").onkeydown=e=>{if(e.key==="Escape"){e.target.value="";searchQuery="";renderDict();}};
+
+// Xử lý nút cuộn lên đầu trang (Scroll to Top)
+window.onscroll = () => {
+  if (window.scrollY > 250) {
+    $("#scrollTopBtn").classList.add("show");
+  } else {
+    $("#scrollTopBtn").classList.remove("show");
+  }
+};
+$("#scrollTopBtn").onclick = () => {
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+};
 
 $("#saveBtn").onclick=()=>{
  const payload={version:1,answers,examMode,randomMode,currentLesson,index,finished,questionKeys:questions.map(q=>q.key)};
