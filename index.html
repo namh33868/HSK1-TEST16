@@ -1,0 +1,529 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#f5f2ea">
+<title>HSK 1 thực chiến — Luyện theo tình huống</title>
+<style>
+:root{--ink:#202b35;--muted:#66727d;--paper:#fffdf8;--bg:#f4f1e9;--line:#e4dfd4;--red:#b83d32;--red2:#f8e6e1;--green:#267452;--greenbg:#e3f3e9;--blue:#245c83;--bluebg:#e7f1f8;--shadow:0 8px 24px #24313b0f}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.5;overflow-x:hidden}
+header{background:var(--paper);border-bottom:1px solid var(--line);padding:10px 14px;padding-top:calc(8px + env(safe-area-inset-top))}
+.head{max-width:1050px;margin:auto;display:flex;gap:8px;align-items:center;justify-content:space-between}
+.brand{display:flex;gap:8px;align-items:center}
+.logo{width:36px;height:36px;border-radius:10px;background:var(--red);color:white;display:grid;place-items:center;font-size:16px;font-weight:800;box-shadow:0 3px 0 #80271f}
+.eyebrow{font-size:9px;letter-spacing:.1em;font-weight:800;color:var(--red);text-transform:uppercase}
+.title{font-size:16px;font-weight:850;letter-spacing:-.03em;margin:1px 0}
+.wrap{max-width:1050px;margin:8px auto;padding:0 10px calc(24px + env(safe-area-inset-bottom));display:grid;grid-template-columns:1fr;gap:12px}
+.panel,.card{background:var(--paper);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow)}
+.side{padding:12px}
+.side h2{font-size:13px;margin:0 0 8px;font-weight:750}
+.lesson-list{display:grid;gap:6px;max-height:220px;overflow-y:auto;padding-right:4px}
+.lesson-btn{border:1px solid transparent;background:transparent;color:var(--ink);text-align:left;padding:8px 10px;border-radius:10px;cursor:pointer;font:inherit;display:flex;gap:8px;align-items:center;font-size:13px}
+.lesson-btn .num{font-size:10px;font-weight:800;background:#eee9df;border-radius:6px;padding:2px 5px;min-width:24px;text-align:center}
+.lesson-btn.active{background:var(--red2);border-color:#edc7bf;color:#7f261f;font-weight:750}
+.lesson-btn.active .num{background:var(--red);color:white}
+.side-note{border-top:1px solid var(--line);margin-top:10px;padding-top:8px;font-size:11px;color:var(--muted)}
+main{min-width:0}
+.toolbar{display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin-bottom:8px}
+main>.toolbar:first-of-type{position:sticky;top:0;z-index:30;background:var(--bg);padding:6px 0;border-bottom:1px solid var(--line)}
+.tabs{flex:none;width:100%;display:flex;gap:4px;background:#efeae0;padding:4px;border-radius:12px;margin-bottom:2px}
+.tab{flex:1;border:0;background:transparent;padding:8px;border-radius:9px;font-weight:750;color:var(--muted);font-size:13px;cursor:pointer;text-align:center}
+.tab.active{background:var(--paper);color:var(--red);box-shadow:0 2px 6px #24313b14}
+.search{flex:1;width:100%;border:1px solid var(--line);border-radius:11px;padding:10px 12px;font:inherit;background:var(--paper);color:var(--ink);font-size:14px}
+.search:focus{outline:3px solid #79b8df;border-color:#9cc9e5}
+button,select{font:inherit}button{cursor:pointer}
+.btn{border:1px solid var(--line);background:var(--paper);border-radius:10px;padding:8px 12px;font-weight:700;color:var(--ink);font-size:12px;min-height:38px}
+.btn.primary{background:var(--red);border-color:var(--red);color:white}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+#quizTools{gap:6px;margin-bottom:10px;display:flex;flex-wrap:wrap}
+#modePill{flex:1 1 100%;text-align:center;padding:6px;font-size:11px;border:1px solid var(--line);background:var(--paper);border-radius:8px;color:var(--muted);font-weight:700}
+.toggle{display:flex;gap:6px;align-items:center;font-size:12px;background:var(--paper);border:1px solid var(--line);padding:8px 10px;border-radius:10px;flex:1 1 48%;min-height:38px;cursor:pointer;font-weight:500}
+#quizTools .btn{flex:1 1 30%;padding:8px 6px;font-size:12px}
+.intro{padding:14px;margin-bottom:10px;background:var(--ink);color:white;border-radius:14px;position:relative;overflow:hidden}
+.intro h2{font-size:17px;margin:0 0 4px}
+.intro p{margin:0;color:#d5dce1;font-size:12px;line-height:1.4}
+.stats{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
+.stat{border:1px solid #ffffff25;border-radius:8px;padding:6px 8px;font-size:11px;color:#e5e9ed;flex:1 1 45%;text-align:center;background:#ffffff0a}
+.card{padding:14px;margin-bottom:10px;border-radius:14px}
+.qtop{display:flex;justify-content:space-between;align-items:center;color:var(--muted);font-size:11px;margin-bottom:8px}
+.tag{background:var(--bluebg);color:var(--blue);border-radius:6px;padding:3px 8px;font-weight:800;font-size:11px}
+.prompt{font-size:15px;font-weight:750;margin:0 0 10px}
+.dialogue{background:#f5f2eb;border:1px solid var(--line);border-radius:12px;padding:12px;margin:8px 0 12px}
+.line{display:grid;grid-template-columns:48px 1fr;gap:6px;margin:6px 0}
+.speaker{font-size:12px;color:var(--red);font-weight:800}
+.cn{font-size:17px;font-weight:700}
+.py{font-size:12px;color:#69737c;margin-top:2px}
+.translation{font-size:12px;color:#6a737c;margin-top:3px}
+.picture{display:flex;align-items:center;justify-content:center;gap:12px;background:#fff7e5;border:1px solid #f0dfb8;border-radius:12px;padding:12px;margin:10px 0}
+.picture .emoji{font-size:38px}
+.picture .pic-caption{font-size:12px;color:#6e6250;text-align:center}
+.options{display:grid;gap:8px;margin-top:10px}
+.option{display:flex;align-items:flex-start;gap:10px;text-align:left;border:1px solid var(--line);background:white;border-radius:12px;padding:11px;width:100%;color:var(--ink);min-height:46px;font-size:14px}
+.letter{width:24px;height:24px;border-radius:7px;display:grid;place-items:center;background:#f0ede6;color:#4c555c;font-size:11px;font-weight:850;flex:none}
+.option .opt-cn{font-size:15px;font-weight:700}
+.option .opt-sub{font-size:12px;color:var(--muted);margin-top:2px}
+.option.selected{border-color:var(--blue);background:var(--bluebg)}
+.option.correct{border-color:#8bc8a4;background:var(--greenbg)}
+.option.wrong{border-color:#e4a49a;background:var(--red2)}
+.feedback{border-radius:12px;padding:12px;margin-top:10px;font-size:13px}
+.feedback.good{background:var(--greenbg);border:1px solid #b4dfc4}
+.feedback.bad{background:var(--red2);border:1px solid #edc5be}
+.feedback strong{display:block;margin-bottom:4px}
+.controls{display:flex;gap:8px;margin-top:14px}
+.controls .btn{flex:1;padding:12px;font-size:14px;min-height:44px;text-align:center}
+.progress{height:6px;border-radius:99px;background:#e9e4da;overflow:hidden;margin:10px 0}
+.progress>div{height:100%;background:var(--red);width:0;transition:width .2s}
+.empty{text-align:center;padding:24px;color:var(--muted)}
+.results{padding:20px;text-align:center}
+.score{font-size:38px;font-weight:900;color:var(--red)}
+.result-breakdown{display:flex;justify-content:center;gap:6px;flex-wrap:wrap;margin:12px 0}
+.result-breakdown span{padding:6px 10px;background:#f0ede6;border-radius:8px;font-size:11px;font-weight:600}
+.footer{text-align:center;color:var(--muted);font-size:11px;padding:6px 0}
+.vocab-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+.vocab-item{border:1px solid var(--line);border-radius:12px;padding:10px;background:white}
+.vocab-item .vz{font-size:18px;font-weight:800}
+.vocab-item .vp{font-size:12px;color:var(--blue);font-weight:700;margin-top:2px}
+.vocab-item .vv{font-size:12px;color:var(--muted);margin-top:3px}
+.vocab-item .vles{font-size:9px;color:#9aa3ab;margin-top:6px;font-weight:700;text-transform:uppercase}
+mark.hl{background:#ffe9a8;color:#7a4b00;border-radius:4px;padding:0 2px}
+.passage{background:#f5f2eb;border:1px solid var(--line);border-radius:12px;padding:12px;margin:10px 0;font-size:14px;line-height:1.7}
+.tiles{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0}
+.tile{border:1px solid var(--line);background:white;border-radius:9px;padding:10px 12px;font-size:14px;font-weight:700;color:var(--ink);min-height:42px}
+.tile:disabled{opacity:.35}
+.build-row{display:flex;flex-wrap:wrap;gap:6px;min-height:52px;border:2px dashed #d8d1c4;border-radius:12px;padding:10px;background:#faf8f3;align-items:flex-start}
+.build-row .tile{background:var(--bluebg);border-color:#b9d6ea}
+.hintline{font-size:12px;color:var(--muted);margin-top:8px}
+.typein{border:1px solid var(--line);border-radius:10px;padding:12px;font:inherit;font-size:15px;width:100%;background:white;color:var(--ink)}
+.typein:focus{outline:3px solid #79b8df;border-color:#9cc9e5}
+.chiprow{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.hidden{display:none!important}
+</style>
+</head>
+<body>
+<header>
+  <div class="head">
+    <div class="brand">
+      <div class="logo">汉</div>
+      <div>
+        <div class="eyebrow">HSK 1 · Thực chiến</div>
+        <div class="title">Luyện theo tình huống</div>
+      </div>
+    </div>
+    <button class="btn" id="saveBtn" title="Lưu bài làm">Lưu ↗</button>
+  </div>
+</header>
+
+<div class="wrap">
+  <aside class="panel side">
+    <h2>Chọn chủ đề luyện tập</h2>
+    <div class="lesson-list" id="lessonList"></div>
+    <div class="side-note">Hệ thống biên soạn tối ưu riêng cho màn hình điện thoại (360px - 430px).</div>
+  </aside>
+
+  <main>
+    <div class="toolbar">
+      <div class="tabs">
+        <button id="tabQuiz" class="tab active">Luyện tập</button>
+        <button id="tabDict" class="tab">Từ điển</button>
+      </div>
+      <input id="searchInput" class="search" type="search" placeholder="🔍 Tìm từ vựng: 汉字 / pinyin / nghĩa…" autocomplete="off">
+    </div>
+
+    <div class="toolbar" id="quizTools">
+      <span class="pill" id="modePill">Luyện theo chủ đề</span>
+      <label class="toggle"><input type="checkbox" id="pinyinToggle"> Hiện pinyin</label>
+      <label class="toggle"><input type="checkbox" id="translationToggle" checked> Hiện nghĩa Việt</label>
+      <button class="btn" id="mixBtn">Trộn 10</button>
+      <button class="btn" id="examBtn">Thi thử 20</button>
+      <button class="btn" id="resetBtn">Làm lại</button>
+    </div>
+
+    <section class="card hidden" id="dictView"></section>
+
+    <div id="quizView">
+      <section class="card intro">
+        <h2 id="lessonTitle">Chào hỏi và giới thiệu</h2>
+        <p id="lessonDesc">Luyện hiểu ý chính và thông tin đời thường.</p>
+        <div class="stats">
+          <span class="stat" id="countStat">5 câu</span>
+          <span class="stat" id="vocabStat">0 từ</span>
+          <span class="stat" id="scoreStat">Đúng: 0</span>
+          <span class="stat" id="doneStat">Đã làm: 0</span>
+        </div>
+      </section>
+
+      <div class="progress"><div id="progressFill"></div></div>
+      <div id="questionArea"></div>
+      <div class="footer">Mẹo: Sử dụng tab <b>Từ điển</b> để tra cứu nhanh khi gặp từ mới.</div>
+    </div>
+  </main>
+</div>
+
+<script>
+const lessons = [
+{id:1,title:"Chào hỏi & giới thiệu",desc:"Chào hỏi, hỏi tên, quốc tịch và làm quen.",qs:[
+{type:"dialogue",label:"Đọc hội thoại",dialogue:[["小王","你好！你叫什么名字？","Nǐ hǎo! Nǐ jiào shénme míngzi?","Chào bạn! Bạn tên là gì?"],["小李","我叫李月。你呢？","Wǒ jiào Lǐ Yuè. Nǐ ne?","Tôi tên Lý Nguyệt. Còn bạn?"],["小王","我叫王明。很高兴认识你。","Wǒ jiào Wáng Míng. Hěn gāoxìng rènshi nǐ.","Tôi tên Vương Minh. Rất vui được quen bạn."]],q:"小李叫什么名字？",py:"Xiǎo Lǐ jiào shénme míngzi?",options:[["王明","Wáng Míng"],["李月","Lǐ Yuè"],["老师","lǎoshī"],["小王","Xiǎo Wáng"]],answer:1,why:"小李 nói “我叫李月” — tôi tên Lý Nguyệt. 王明 là tên của 小王."},
+{type:"context",label:"Đoán từ theo ngữ cảnh",q:"A: 你好吗？ B: 我很好，____？",py:"A: Nǐ hǎo ma? B: Wǒ hěn hǎo, ____?",options:[["你呢","nǐ ne — còn bạn?"],["什么","shénme — cái gì"],["再见","zàijiàn — tạm biệt"],["多少","duōshao — bao nhiêu"]],answer:0,why:"“你呢？” dùng để hỏi lại “còn bạn thì sao?”. Đây là cách đáp tự nhiên sau khi nói tình trạng của mình."},
+{type:"picture",label:"Nhìn hình chọn câu",picture:["👋","🙂","Hai người gặp nhau"],q:"Hai người vừa gặp nhau. Câu nào phù hợp nhất để chào?",options:[["你好！","Nǐ hǎo! — Xin chào!"],["晚安！","Wǎn'ān! — Chúc ngủ ngon!"],["多少钱？","Duōshao qián? — Bao nhiêu tiền?"],["我不喝。","Wǒ bù hē. — Tôi không uống."]],answer:0,why:"你好 là lời chào thông dụng khi gặp nhau."},
+{type:"reply",label:"Chọn câu đáp",q:"A: 你是中国人吗？ B: ____。我是越南人。",py:"A: Nǐ shì Zhōngguó rén ma? B: ____. Wǒ shì Yuènán rén.",options:[["不是","bú shì — Không phải"],["再见","zàijiàn — Tạm biệt"],["谢谢","xièxie — Cảm ơn"],["没关系","méi guānxi — Không sao"]],answer:0,why:"Người nói tiếp “我是越南人” (tôi là người Việt Nam), nên câu trả lời phù hợp là 不是 — không phải (người Trung Quốc)."},
+{type:"meaning",label:"Hiểu câu thực tế",q:"“很高兴认识你。” có nghĩa là gì?",py:"Hěn gāoxìng rènshi nǐ.",options:[["Rất vui được quen bạn.",""],["Bạn đi đâu vậy?",""],["Tôi không hiểu.",""],["Hẹn gặp ngày mai.",""]],answer:0,why:"很高兴 = rất vui; 认识你 = quen/biết bạn. Câu thường dùng khi mới làm quen."}]},
+{id:2,title:"Gia đình & tuổi tác",desc:"Hỏi tuổi, người thân và thông tin đơn giản về gia đình.",qs:[
+{type:"dialogue",label:"Đọc hội thoại",dialogue:[["小林","你家有几口人？","Nǐ jiā yǒu jǐ kǒu rén?","Nhà bạn có mấy người?"],["小陈","我家有四口人：爸爸、妈妈、姐姐和我。","Wǒ jiā yǒu sì kǒu rén: bàba, māma, jiějie hé wǒ.","Nhà tôi có bốn người: bố, mẹ, chị gái và tôi." ]],q:"小陈家有几口人？",py:"Xiǎo Chén jiā yǒu jǐ kǒu rén?",options:[["三口人","sān kǒu rén — ba người"],["四口人","sì kǒu rén — bốn người"],["五口人","wǔ kǒu rén — năm người"],["两口人","liǎng kǒu rén — hai người"]],answer:1,why:"Câu trả lời nói rõ “我家有四口人” — nhà tôi có bốn người."},
+{type:"context",label:"Điền từ",q:"我今年二十____。",py:"Wǒ jīnnián èrshí ____.",options:[["岁","suì — tuổi"],["个","gè — lượng từ chung"],["口","kǒu — lượng từ người trong gia đình"],["本","běn — lượng từ sách"]],answer:0,why:"岁 dùng để nói tuổi: 二十岁 = 20 tuổi."},
+{type:"picture",label:"Nhìn hình đoán từ",picture:["👨‍👩‍👧","🏠","Một gia đình"],q:"Hình này gợi ý từ nào?",options:[["家","jiā — nhà, gia đình"],["水","shuǐ — nước"],["书","shū — sách"],["车","chē — xe"]],answer:0,why:"家 nghĩa là nhà hoặc gia đình; hình minh họa gia đình ở nhà."},
+{type:"reply",label:"Chọn câu đáp",q:"A: 你妈妈多大？ B: ____。",py:"A: Nǐ māma duō dà? B: ____.",options:[["她四十五岁。","Tā sìshíwǔ suì. — Bà ấy 45 tuổi."],["她是老师吗？","Tā shì lǎoshī ma? — Bà ấy là giáo viên à?"],["我去学校。","Wǒ qù xuéxiào. — Tôi đi trường."],["今天星期三。","Jīntiān xīngqīsān. — Hôm nay thứ Tư."]],answer:0,why:"多大 hỏi tuổi. Câu đáp tự nhiên đưa ra tuổi của mẹ."},
+{type:"meaning",label:"Hiểu câu thực tế",q:"“他没有哥哥，有一个姐姐。” nghĩa là gì?",py:"Tā méiyǒu gēge, yǒu yí ge jiějie.",options:[["Anh ấy không có anh trai, có một chị gái.",""],["Anh ấy có một anh trai và một chị gái.",""],["Anh ấy không có gia đình.",""],["Chị gái của anh ấy là giáo viên.",""]],answer:0,why:"沒有 = không có; 哥哥 = anh trai; 一个姐姐 = một chị gái."}]},
+{id:3,title:"Ngày tháng & thời gian",desc:"Hỏi hôm nay ngày mấy, thứ mấy và mấy giờ.",qs:[
+{type:"dialogue",label:"Đọc hội thoại",dialogue:[["小赵","今天星期几？","Jīntiān xīngqī jǐ?","Hôm nay thứ mấy?"],["小周","今天星期五。明天星期六。","Jīntiān xīngqīwǔ. Míngtiān xīngqīliù.","Hôm nay thứ Sáu. Ngày mai thứ Bảy." ]],q:"明天星期几？",py:"Míngtiān xīngqī jǐ?",options:[["星期四","xīngqīsì — thứ Năm"],["星期五","xīngqīwǔ — thứ Sáu"],["星期六","xīngqīliù — thứ Bảy"],["星期日","xīngqīrì — Chủ nhật"]],answer:2,why:"Người nói cho biết hôm nay thứ Sáu và ngày mai thứ Bảy."},
+{type:"context",label:"Điền từ",q:"现在三点____，我们三点半见。",py:"Xiànzài sān diǎn ____, wǒmen sān diǎn bàn jiàn.",options:[["一刻","yí kè — 15 phút"],["星期","xīngqī — tuần"],["昨天","zuótiān — hôm qua"],["岁","suì — tuổi"]],answer:0,why:"三点一刻 là 3 giờ 15. 三点半 là 3 giờ rưỡi."},
+{type:"picture",label:"Nhìn hình chọn câu",picture:["🕒","3:00","Đồng hồ chỉ 3 giờ"],q:"Câu nào nói đúng giờ trên đồng hồ?",options:[["现在三点。","Xiànzài sān diǎn. — Bây giờ là 3 giờ."],["现在六点。","Xiànzài liù diǎn. — Bây giờ là 6 giờ."],["今天星期三。","Jīntiān xīngqīsān. — Hôm nay thứ Tư."],["明天三岁。","Míngtiān sān suì. — Ngày mai ba tuổi."]],answer:0,why:"Đồng hồ hiển thị 3:00, tương ứng 现在三点."},
+{type:"reply",label:"Chọn câu đáp",q:"A: 你哪天去北京？ B: ____。",py:"A: Nǐ nǎ tiān qù Běijīng? B: ____.",options:[["我星期天去。","Wǒ xīngqītiān qù. — Tôi đi Chủ nhật."],["我二十岁。","Wǒ èrshí suì. — Tôi 20 tuổi."],["我喝水。","Wǒ hē shuǐ. — Tôi uống nước."],["她是我妈妈。","Tā shì wǒ māma. — Bà ấy là mẹ tôi."]],answer:0,why:"哪天 hỏi ngày nào; câu trả lời cần nêu ngày."},
+{type:"meaning",label:"Hiểu câu thực tế",q:"“你几点下班？” hỏi điều gì?",py:"Nǐ jǐ diǎn xiàbān?",options:[["Mấy giờ bạn tan làm?",""],["Bạn làm nghề gì?",""],["Bạn đi làm ở đâu?",""],["Hôm nay ngày bao nhiêu?",""]],answer:0,why:"几点 hỏi mấy giờ; 下班 nghĩa là tan làm."}]},
+{id:4,title:"Ăn uống & mua đồ",desc:"Gọi món, hỏi giá và nói mình muốn mua gì.",qs:[
+{type:"dialogue",label:"Đọc hội thoại",dialogue:[["服务员","你想喝什么？","Nǐ xiǎng hē shénme?","Bạn muốn uống gì?"],["小李","我想喝茶。请给我一杯茶。","Wǒ xiǎng hē chá. Qǐng gěi wǒ yì bēi chá.","Tôi muốn uống trà. Cho tôi một cốc trà."],["服务员","好，五块钱。","Hǎo, wǔ kuài qián.","Được, 5 tệ."]],q:"小李想喝什么？",py:"Xiǎo Lǐ xiǎng hē shénme?",options:[["水","shuǐ — nước"],["茶","chá — trà"],["咖啡","kāfēi — cà phê"],["牛奶","niúnǎi — sữa"]],answer:1,why:"小李 nói “我想喝茶” — tôi muốn uống trà."},
+{type:"context",label:"Điền từ",q:"这个苹果多少钱？——十____钱。",py:"Zhège píngguǒ duōshao qián? — Shí ____ qián.",options:[["块","kuài — đơn vị tiền khẩu ngữ"],["岁","suì — tuổi"],["点","diǎn — giờ/điểm"],["口","kǒu — lượng từ"]],answer:0,why:"块钱 là cách nói khẩu ngữ phổ biến cho đơn vị tiền tệ; 十块钱 = 10 tệ."},
+{type:"picture",label:"Nhìn hình đoán từ",picture:["🍎","🍌","Trái cây"],q:"“水果” là gì?",options:[["Hoa quả","shuǐguǒ"],["Quần áo","yīfu"],["Nước","shuǐ"],["Sách","shū"]],answer:0,why:"水果 nghĩa là hoa quả; táo và chuối là ví dụ về trái cây."},
+{type:"reply",label:"Chọn câu đáp",q:"A: 你要几个苹果？ B: ____。",py:"A: Nǐ yào jǐ ge píngguǒ? B: ____.",options:[["我要三个。","Wǒ yào sān ge. — Tôi lấy ba quả."],["我叫王明。","Wǒ jiào Wáng Míng. — Tôi tên Vương Minh."],["今天很冷。","Jīntiān hěn lěng. — Hôm nay lạnh."],["我在学校。","Wǒ zài xuéxiào. — Tôi ở trường."]],answer:0,why:"几个 hỏi số lượng; đáp án nêu ba quả."},
+{type:"meaning",label:"Hiểu câu thực tế",q:"“太贵了，有便宜一点儿的吗？” nghĩa là gì?",py:"Tài guì le, yǒu piányi yìdiǎnr de ma?",options:[["Đắt quá, có cái nào rẻ hơn một chút không?",""],["Tôi muốn mua hai quyển sách.",""],["Món này rất ngon.",""],["Cửa hàng ở đâu?",""]],answer:0,why:"太贵了 = đắt quá; 便宜一点儿 = rẻ hơn một chút."}]},
+{id:5,title:"Học tập & công việc",desc:"Nói về trường học, học tiếng Trung và công việc.",qs:[
+{type:"dialogue",label:"Đọc hội thoại",dialogue:[["小王","你在哪儿工作？","Nǐ zài nǎr gōngzuò?","Bạn làm việc ở đâu?"],["小陈","我在医院工作。我是医生。","Wǒ zài yīyuàn gōngzuò. Wǒ shì yīshēng.","Tôi làm ở bệnh viện. Tôi là bác sĩ." ]],q:"小陈在哪儿工作？",py:"Xiǎo Chén zài nǎr gōngzuò?",options:[["学校","xuéxiào — trường học"],["商店","shāngdiàn — cửa hàng"],["医院","yīyuàn — bệnh viện"],["饭馆","fànguǎn — quán ăn"]],answer:2,why:"小陈 nói trực tiếp “我在医院工作” — tôi làm ở bệnh viện."},
+{type:"context",label:"Điền từ",q:"我是学生，我在学校____汉语。",py:"Wǒ shì xuésheng, wǒ zài xuéxiào ____ Hànyǔ.",options:[["学习","xuéxí — học"],["买","mǎi — mua"],["喝","hē — uống"],["坐","zuò — ngồi/đi bằng"]],answer:0,why:"学习汉语 nghĩa là học tiếng Trung; trường học là nơi hợp ngữ cảnh."},
+{type:"picture",label:"Nhìn hình đoán từ",picture:["📚","✏️","Sách vở và bút"],q:"Từ nào phù hợp nhất với hình?",options:[["书","shū — sách"],["猫","māo — mèo"],["雨","yǔ — mưa"],["饭","fàn — cơm/bữa ăn"]],answer:0,why:"书 nghĩa là sách; hình có sách vở và đồ dùng học tập."},
+{type:"reply",label:"Chọn câu đáp",q:"A: 你会说汉语吗？ B: ____。",py:"A: Nǐ huì shuō Hànyǔ ma? B: ____.",options:[["我会说一点儿。","Wǒ huì shuō yìdiǎnr. — Tôi biết nói một chút."],["我十块钱。","Wǒ shí kuài qián. — Tôi mười tệ."],["今天星期二。","Jīntiān xīngqī'èr. — Hôm nay thứ Ba."],["我不吃苹果。","Wǒ bù chī píngguǒ. — Tôi không ăn táo."]],answer:0,why:"会说汉语 hỏi khả năng nói tiếng Trung; đáp án nói biết nói một chút."},
+{type:"meaning",label:"Hiểu câu thực tế",q:"“我今天没时间，明天再去吧。” nghĩa là gì?",py:"Wǒ jīntiān méi shíjiān, míngtiān zài qù ba.",options:[["Hôm nay tôi không có thời gian, mai đi nhé.",""],["Hôm nay tôi đi làm về muộn.",""],["Ngày mai tôi không đi học.",""],["Bây giờ là mấy giờ?",""]],answer:0,why:"没时间 = không có thời gian; 明天再去 = ngày mai đi sau/vào ngày mai nhé."}]},
+{id:6,title:"Địa điểm & đi lại",desc:"Hỏi đường đơn giản, vị trí và cách đi đến nơi nào đó.",qs:[
+{type:"dialogue",label:"Đọc hội thoại",dialogue:[["小李","请问，医院在哪儿？","Qǐngwèn, yīyuàn zài nǎr?","Xin hỏi, bệnh viện ở đâu?"],["路人","在学校旁边。","Zài xuéxiào pángbiān.","Ở bên cạnh trường học." ]],q:"医院在哪儿？",py:"Yīyuàn zài nǎr?",options:[["学校旁边","xuéxiào pángbiān — bên cạnh trường"],["商店里面","shāngdiàn lǐmiàn — bên trong cửa hàng"],["家里","jiā lǐ — ở nhà"],["饭馆后面","fànguǎn hòumiàn — phía sau quán ăn"]],answer:0,why:"Câu trả lời nói bệnh viện ở cạnh trường học."},
+{type:"context",label:"Điền từ",q:"我家____学校很近，走路五分钟就到。",py:"Wǒ jiā ____ xuéxiào hěn jìn, zǒulù wǔ fēnzhōng jiù dào.",options:[["离","lí — cách"],["喝","hē — uống"],["叫","jiào — gọi/tên là"],["买","mǎi — mua"]],answer:0,why:"离……很近 nghĩa là rất gần…; 走路五分钟就到 củng cố ý khoảng cách gần."},
+{type:"picture",label:"Nhìn hình đoán từ",picture:["🚌","🚏","Xe buýt và trạm"],q:"Từ nào liên quan trực tiếp nhất đến hình?",options:[["公共汽车","gōnggòng qìchē — xe buýt"],["医生","yīshēng — bác sĩ"],["天气","tiānqì — thời tiết"],["米饭","mǐfàn — cơm"]],answer:0,why:"公共汽车 là xe buýt; hình minh họa xe buýt và điểm dừng."},
+{type:"reply",label:"Chọn câu đáp",q:"A: 你怎么去学校？ B: ____。",py:"A: Nǐ zěnme qù xuéxiào? B: ____.",options:[["我坐公共汽车去。","Wǒ zuò gōnggòng qìchē qù. — Tôi đi bằng xe buýt."],["我今年十八岁。","Wǒ jīnnián shíbā suì. — Năm nay tôi 18 tuổi."],["我想吃米饭。","Wǒ xiǎng chī mǐfàn. — Tôi muốn ăn cơm."],["她是我姐姐。","Tā shì wǒ jiějie. — Cô ấy là chị tôi."]],answer:0,why:"怎么去 hỏi đi bằng cách nào; câu đáp nêu phương tiện."},
+{type:"meaning",label:"Hiểu câu thực tế",q:"“一直往前走，然后左转。” nghĩa là gì?",py:"Yìzhí wǎng qián zǒu, ránhòu zuǒ zhuǎn.",options:[["Đi thẳng về phía trước, sau đó rẽ trái.",""],["Đi về nhà rồi ăn cơm.",""],["Đi xe buýt đến trường.",""],["Cửa hàng đóng cửa rồi.",""]],answer:0,why:"一直往前走 = đi thẳng; 然后 = sau đó; 左转 = rẽ trái."}]},
+{id:7,title:"Thời tiết & hoạt động",desc:"Miêu tả nóng, lạnh, mưa và kế hoạch đơn giản.",qs:[
+{type:"dialogue",label:"Đọc hội thoại",dialogue:[["小美","今天怎么样？","Jīntiān zěnmeyàng?","Hôm nay thế nào?"],["小安","今天很冷，还下雨。","Jīntiān hěn lěng, hái xià yǔ.","Hôm nay rất lạnh, còn mưa nữa." ]],q:"今天天气怎么样？",py:"Jīntiān tiānqì zěnmeyàng?",options:[["很热","hěn rè — rất nóng"],["很冷，还下雨","hěn lěng, hái xià yǔ — rất lạnh, còn mưa"],["很好，不下雨","hěn hǎo, bú xià yǔ — rất đẹp, không mưa"],["下雪，很热","xià xuě, hěn rè — có tuyết, rất nóng"]],answer:1,why:"Hội thoại nói rõ 很冷 và 下雨 — trời lạnh và mưa."},
+{type:"context",label:"Điền từ",q:"外面下雨了，别忘了带____。",py:"Wàimiàn xià yǔ le, bié wàng le dài ____.",options:[["雨伞","yǔsǎn — ô/dù"],["苹果","píngguǒ — táo"],["电视","diànshì — ti-vi"],["老师","lǎoshī — giáo viên"]],answer:0,why:"Trời mưa thì mang ô/dù là hợp lý nhất theo ngữ cảnh."},
+{type:"picture",label:"Nhìn hình chọn câu",picture:["🌧️","☂️","Trời mưa, có ô"],q:"Câu nào phù hợp nhất với hình?",options:[["今天下雨了。","Jīntiān xià yǔ le. — Hôm nay trời mưa."],["今天很热。","Jīntiān hěn rè. — Hôm nay nóng."],["我在看书。","Wǒ zài kàn shū. — Tôi đang đọc sách."],["他在吃饭。","Tā zài chī fàn. — Anh ấy đang ăn cơm."]],answer:0,why:"Hình có mây mưa và ô, phù hợp với 今天下雨了."},
+{type:"reply",label:"Chọn câu đáp",q:"A: 今天很热，你想喝水吗？ B: ____。",py:"A: Jīntiān hěn rè, nǐ xiǎng hē shuǐ ma? B: ____.",options:[["好，谢谢。","Hǎo, xièxie. — Được, cảm ơn."],["我姓王。","Wǒ xìng Wáng. — Tôi họ Vương."],["星期一。","Xīngqīyī. — Thứ Hai."],["在学校后面。","Zài xuéxiào hòumiàn. — Ở phía sau trường."]],answer:0,why:"Được hỏi có muốn uống nước không, 好，谢谢 là câu đáp tự nhiên."},
+{type:"meaning",label:"Hiểu câu thực tế",q:"“明天可能会下雨，我们在家看电视吧。” nghĩa là gì?",py:"Míngtiān kěnéng huì xià yǔ, wǒmen zài jiā kàn diànshì ba.",options:[["Ngày mai có thể mưa, chúng ta ở nhà xem ti-vi nhé.",""],["Hôm nay trời nắng, chúng ta đi bơi.",""],["Tôi không thích xem ti-vi.",""],["Ngày mai tôi phải đi bệnh viện.",""]],answer:0,why:"可能會下雨 = có thể sẽ mưa; 在家看电视 = xem ti-vi ở nhà."}]},
+{id:8,title:"Ôn tập tổng hợp",desc:"Trộn các chủ đề để luyện đọc nhanh và suy luận từ ngữ cảnh.",qs:[
+{type:"dialogue",label:"Đọc hội thoại",dialogue:[["妈妈","你吃饭了吗？","Nǐ chī fàn le ma?","Con ăn cơm chưa?"],["小明","还没有。我现在去吃。","Hái méiyǒu. Wǒ xiànzài qù chī.","Chưa ạ. Bây giờ con đi ăn." ]],q:"小明现在要做什么？",py:"Xiǎo Míng xiànzài yào zuò shénme?",options:[["去吃饭","qù chī fàn — đi ăn cơm"],["去买衣服","qù mǎi yīfu — đi mua quần áo"],["去睡觉","qù shuìjiào — đi ngủ"],["去上课","qù shàngkè — đi học"]],answer:0,why:"小明 nói “我现在去吃” — bây giờ tôi đi ăn."},
+{type:"context",label:"Đoán từ theo ngữ cảnh",q:"我很累，今天晚上想早点儿____。",py:"Wǒ hěn lèi, jīntiān wǎnshang xiǎng zǎodiǎnr ____.",options:[["睡觉","shuìjiào — ngủ"],["买东西","mǎi dōngxi — mua đồ"],["上班","shàngbān — đi làm"],["下雨","xià yǔ — mưa"]],answer:0,why:"很累 (rất mệt) và 早点儿 (sớm hơn) gợi ý đi ngủ sớm."},
+{type:"picture",label:"Nhìn hình đoán câu",picture:["📞","💬","Điện thoại, nhắn tin"],q:"Bạn muốn hỏi bạn mình có ở nhà không. Câu nào phù hợp?",options:[["你在家吗？","Nǐ zài jiā ma? — Bạn ở nhà không?"],["你几岁？","Nǐ jǐ suì? — Bạn mấy tuổi?"],["你要几个？","Nǐ yào jǐ ge? — Bạn cần mấy cái?"],["你喝什么？","Nǐ hē shénme? — Bạn uống gì?"]],answer:0,why:"在家 hỏi vị trí đang ở nhà; câu có 吗 tạo câu hỏi có/không."},
+{type:"reply",label:"Chọn câu đáp",q:"A: 对不起，我今天不能去。 B: ____。",py:"A: Duìbuqǐ, wǒ jīntiān bù néng qù. B: ____.",options:[["没关系。","Méi guānxi. — Không sao."],["多少钱？","Duōshao qián? — Bao nhiêu tiền?"],["我姓李。","Wǒ xìng Lǐ. — Tôi họ Lý."],["我喜欢苹果。","Wǒ xǐhuan píngguǒ. — Tôi thích táo."]],answer:0,why:"对不起 là xin lỗi; 没关系 là câu đáp tự nhiên: không sao."},
+{type:"meaning",label:"Hiểu câu thực tế",q:"“我把书放在桌子上了。” nghĩa là gì?",py:"Wǒ bǎ shū fàng zài zhuōzi shàng le.",options:[["Tôi đã đặt sách lên bàn.",""],["Tôi đã mua một cái bàn.",""],["Sách ở trong cặp.",""],["Tôi muốn đọc sách ngày mai.",""]],answer:0,why:"书 = sách; 放在……上 = đặt ở trên…; 桌子 = cái bàn. Cấu trúc 把 là phần mở rộng vượt nhẹ khỏi phạm vi HSK 1 truyền thống."}]}
+,{id:9,title:"Sinh hoạt hằng ngày",desc:"Thói quen, thời điểm trong ngày và các hoạt động thường gặp.",qs:[
+{type:"dialogue",label:"Đọc hội thoại",dialogue:[["小美","你每天几点起床？","Nǐ měitiān jǐ diǎn qǐchuáng?","Mỗi ngày bạn thức dậy lúc mấy giờ?"],["小林","我七点起床，八点去学校。","Wǒ qī diǎn qǐchuáng, bā diǎn qù xuéxiào.","Tôi thức dậy lúc 7 giờ, 8 giờ đi học."]],q:"小林几点去学校？",py:"Xiǎo Lín jǐ diǎn qù xuéxiào?",options:[["七点","qī diǎn — 7 giờ"],["八点","bā diǎn — 8 giờ"],["九点","jiǔ diǎn — 9 giờ"],["十点","shí diǎn — 10 giờ"]],answer:1,why:"Bạn ấy nói 8 giờ đi học: 八点去学校."},
+{type:"context",label:"Điền từ theo ngữ cảnh",q:"我晚上十点____，早上七点起床。",py:"Wǒ wǎnshang shí diǎn ____, zǎoshang qī diǎn qǐchuáng.",options:[["睡觉","shuìjiào — đi ngủ"],["上课","shàngkè — lên lớp"],["买东西","mǎi dōngxi — mua đồ"],["吃午饭","chī wǔfàn — ăn trưa"]],answer:0,why:"Ngủ lúc 10 giờ tối và thức dậy lúc 7 giờ sáng là chuỗi hoạt động hợp lý."},
+{type:"picture",label:"Nhìn hình đoán hoạt động",picture:["🪥","🧼","Đánh răng, rửa mặt"],q:"你早上起床以后做什么？ Hình gợi ý hoạt động nào?",py:"Nǐ zǎoshang qǐchuáng yǐhòu zuò shénme?",options:[["刷牙、洗脸","shuā yá, xǐ liǎn — đánh răng, rửa mặt"],["看电影","kàn diànyǐng — xem phim"],["买衣服","mǎi yīfu — mua quần áo"],["坐飞机","zuò fēijī — đi máy bay"]],answer:0,why:"Bàn chải và xà phòng gợi ý đánh răng và rửa mặt."},
+{type:"reply",label:"Chọn câu đáp",q:"A: 你晚上常常做什么？ B: ____。",py:"A: Nǐ wǎnshang chángcháng zuò shénme? B: ____.",options:[["我常常看书。","Wǒ chángcháng kàn shū. — Tôi thường đọc sách."],["我二十岁。","Wǒ èrshí suì. — Tôi 20 tuổi."],["今天星期三。","Jīntiān xīngqīsān. — Hôm nay thứ Tư."],["这件衣服十块钱。","Zhè jiàn yīfu shí kuài qián. — Bộ quần áo này 10 tệ."]],answer:0,why:"Câu hỏi hỏi hoạt động thường làm buổi tối, đáp án cần nêu một hoạt động."},
+{type:"order",label:"Chọn trật tự câu đúng",q:"Sắp xếp các từ thành câu: 我 / 每天 / 学习 / 汉语",py:"Wǒ / měitiān / xuéxí / Hànyǔ",options:[["我每天学习汉语。","Chủ ngữ + thời gian + động từ + tân ngữ"],["每天汉语我学习。","Thứ tự từ không tự nhiên"],["学习我汉语每天。","Thứ tự từ không tự nhiên"],["汉语每天学习我。","Thứ tự từ không tự nhiên"]],answer:0,why:"Trật tự cơ bản: chủ ngữ 我 + thời gian 每天 + động từ 学习 + tân ngữ 汉语."}]}
+,{id:10,title:"Ở trường & học tiếng Trung",desc:"Môn học, giáo viên, lớp học và các câu giao tiếp ở trường.",qs:[
+{type:"dialogue",label:"Đọc hội thoại",dialogue:[["老师","你们今天学什么？","Nǐmen jīntiān xué shénme?","Hôm nay các em học gì?"],["学生","我们学习汉语，还写汉字。","Wǒmen xuéxí Hànyǔ, hái xiě Hànzì.","Chúng em học tiếng Trung, còn viết chữ Hán nữa."]],q:"学生今天做什么？",py:"Xuésheng jīntiān zuò shénme?",options:[["学习汉语和写汉字","xuéxí Hànyǔ hé xiě Hànzì — học tiếng Trung và viết chữ Hán"],["去医院","qù yīyuàn — đi bệnh viện"],["买水果","mǎi shuǐguǒ — mua hoa quả"],["看天气","kàn tiānqì — xem thời tiết"]],answer:0,why:"Hội thoại nêu hai hoạt động: 学习汉语 và 写汉字."},
+{type:"context",label:"Điền từ",q:"老师，我不____这个汉字。请再说一次。",py:"Lǎoshī, wǒ bù ____ zhège Hànzì. Qǐng zài shuō yí cì.",options:[["认识","rènshi — nhận biết"],["喝","hē — uống"],["坐","zuò — ngồi"],["睡","shuì — ngủ"]],answer:0,why:"认识汉字 là nhận biết chữ Hán; ngữ cảnh xin thầy/cô nói lại cho thấy người học chưa nhận ra chữ."},
+{type:"picture",label:"Nhìn hình chọn từ",picture:["🏫","🎒","Trường học và cặp sách"],q:"我每天去____。",py:"Wǒ měitiān qù ____.",options:[["学校","xuéxiào — trường học"],["医院","yīyuàn — bệnh viện"],["商店","shāngdiàn — cửa hàng"],["机场","jīchǎng — sân bay"]],answer:0,why:"Hình trường học và cặp sách phù hợp với 学校."},
+{type:"reply",label:"Chọn lời đáp phù hợp",q:"A: 这个字怎么读？ B: ____。",py:"A: Zhège zì zěnme dú? B: ____.",options:[["读“人”，rén。","Dú “rén”. — Đọc là rén."],["我在家。","Wǒ zài jiā. — Tôi ở nhà."],["三块钱。","Sān kuài qián. — Ba tệ."],["今天很冷。","Jīntiān hěn lěng. — Hôm nay lạnh."]],answer:0,why:"怎么读 hỏi cách đọc chữ; đáp án đưa ra cách đọc."},
+{type:"meaning",label:"Chọn nghĩa đúng",q:"“请打开书，看第十页。” nghĩa là gì?",py:"Qǐng dǎkāi shū, kàn dì shí yè.",options:[["Hãy mở sách, xem trang 10.",""],["Hãy đóng cửa, về nhà.",""],["Hãy viết tên của bạn.",""],["Hãy mua mười quyển sách.",""]],answer:0,why:"打开书 = mở sách; 第十页 = trang thứ mười."}]}
+,{id:11,title:"Mua sắm & quần áo",desc:"Hỏi giá, màu sắc, kích cỡ và chọn món đồ.",qs:[
+{type:"dialogue",label:"Đọc hội thoại",dialogue:[["顾客","这件衣服多少钱？","Zhè jiàn yīfu duōshao qián?","Bộ quần áo này bao nhiêu tiền?"],["店员","一百块。","Yì bǎi kuài.","100 tệ."],["顾客","有便宜一点儿的吗？","Yǒu piányi yìdiǎnr de ma?","Có cái nào rẻ hơn một chút không?"]],q:"衣服多少钱？",py:"Yīfu duōshao qián?",options:[["十块","shí kuài — 10 tệ"],["五十块","wǔshí kuài — 50 tệ"],["一百块","yì bǎi kuài — 100 tệ"],["两百块","liǎng bǎi kuài — 200 tệ"]],answer:2,why:"Nhân viên trả lời 一百块 — 100 tệ."},
+{type:"context",label:"Điền từ theo ngữ cảnh",q:"这件衣服太大了，有小一点儿____吗？",py:"Zhè jiàn yīfu tài dà le, yǒu xiǎo yìdiǎnr ____ ma?",options:[["的吗","de ma — loại/cái ... không"],["谁","shéi — ai"],["几岁","jǐ suì — mấy tuổi"],["哪天","nǎ tiān — ngày nào"]],answer:0,why:"“有小一点儿的吗？” là cách hỏi có món nhỏ hơn không, lược bỏ danh từ đã biết."},
+{type:"picture",label:"Nhìn hình chọn từ",picture:["👕","👖","Áo và quần"],q:"“衣服” gần nghĩa nhất với từ nào?",options:[["Quần áo","yīfu"],["Thời tiết","tiānqì"],["Bệnh viện","yīyuàn"],["Cơm","mǐfàn"]],answer:0,why:"衣服 nghĩa là quần áo."},
+{type:"reply",label:"Chọn câu đáp",q:"A: 你喜欢红色还是蓝色？ B: ____。",py:"A: Nǐ xǐhuan hóngsè háishi lánsè? B: ____.",options:[["我喜欢蓝色。","Wǒ xǐhuan lánsè. — Tôi thích màu xanh lam."],["我今年十八岁。","Wǒ jīnnián shíbā suì. — Năm nay tôi 18 tuổi."],["我在医院工作。","Wǒ zài yīyuàn gōngzuò. — Tôi làm ở bệnh viện."],["现在三点。","Xiànzài sān diǎn. — Bây giờ 3 giờ."]],answer:0,why:"还是 dùng trong câu hỏi lựa chọn “đỏ hay xanh”; câu đáp chọn một màu."},
+{type:"order",label:"Chọn câu đúng",q:"Muốn nói “Tôi muốn mua chiếc áo này”, chọn câu đúng.",options:[["我想买这件衣服。","Wǒ xiǎng mǎi zhè jiàn yīfu."],["我买想衣服这件。","Sai trật tự từ"],["这件我衣服想买。","Sai trật tự từ"],["衣服这件买我想。","Sai trật tự từ"]],answer:0,why:"Cấu trúc: 我 + 想 + 买 + 这件衣服."}]}
+,{id:12,title:"Ăn ở quán & gọi món",desc:"Gọi đồ ăn, nói sở thích và hỏi người khác muốn ăn gì.",qs:[
+{type:"dialogue",label:"Đọc hội thoại",dialogue:[["服务员","你们想吃什么？","Nǐmen xiǎng chī shénme?","Các bạn muốn ăn gì?"],["小张","我要米饭和鸡蛋。她要面条。","Wǒ yào mǐfàn hé jīdàn. Tā yào miàntiáo.","Tôi lấy cơm và trứng. Cô ấy lấy mì." ]],q:"小张要吃什么？",py:"Xiǎo Zhāng yào chī shénme?",options:[["米饭和鸡蛋","mǐfàn hé jīdàn — cơm và trứng"],["面条和鱼","miàntiáo hé yú — mì và cá"],["苹果和茶","píngguǒ hé chá — táo và trà"],["牛奶和面包","niúnǎi hé miànbāo — sữa và bánh mì"]],answer:0,why:"小张 nói 我要米饭和鸡蛋. Mì là món cô gái kia gọi."},
+{type:"context",label:"Điền từ",q:"我不吃肉，我想吃____。",py:"Wǒ bù chī ròu, wǒ xiǎng chī ____.",options:[["蔬菜","shūcài — rau"],["衣服","yīfu — quần áo"],["电影","diànyǐng — phim"],["天气","tiānqì — thời tiết"]],answer:0,why:"蔬菜 là rau, phù hợp với ngữ cảnh nói không ăn thịt và muốn ăn rau."},
+{type:"picture",label:"Nhìn hình chọn từ",picture:["🍜","🥢","Một bát mì và đũa"],q:"你想吃什么？ Hình gợi ý món nào?",options:[["面条","miàntiáo — mì"],["苹果","píngguǒ — táo"],["水","shuǐ — nước"],["书","shū — sách"]],answer:0,why:"Bát mì gợi ý 面条."},
+{type:"reply",label:"Chọn câu đáp",q:"A: 你喝茶还是喝水？ B: ____。",py:"A: Nǐ hē chá háishi hē shuǐ? B: ____.",options:[["我喝水，谢谢。","Wǒ hē shuǐ, xièxie. — Tôi uống nước, cảm ơn."],["我去学校。","Wǒ qù xuéxiào. — Tôi đi trường."],["我有两个姐姐。","Wǒ yǒu liǎng ge jiějie. — Tôi có hai chị gái."],["他是医生。","Tā shì yīshēng. — Anh ấy là bác sĩ."]],answer:0,why:"Câu hỏi đưa ra lựa chọn trà hay nước; đáp án chọn nước."},
+{type:"meaning",label:"Hiểu câu thực tế",q:"“请给我一双筷子。” nghĩa là gì?",py:"Qǐng gěi wǒ yì shuāng kuàizi.",options:[["Làm ơn đưa tôi một đôi đũa.",""],["Làm ơn cho tôi một cốc nước.",""],["Tôi muốn mua đôi giày này.",""],["Hãy mở cửa giúp tôi.",""]],answer:0,why:"一双 là lượng từ cho đồ vật theo đôi; 筷子 là đũa."}]}
+,{id:13,title:"Sức khỏe & cảm giác",desc:"Nói đơn giản về mệt, đói, khát và nhờ giúp đỡ.",qs:[
+{type:"dialogue",label:"Đọc hội thoại",dialogue:[["小王","你怎么了？不舒服吗？","Nǐ zěnme le? Bù shūfu ma?","Bạn sao vậy? Không khỏe à?"],["小李","我有一点儿头疼，想回家休息。","Wǒ yǒu yìdiǎnr tóuténg, xiǎng huí jiā xiūxi.","Tôi hơi đau đầu, muốn về nhà nghỉ." ]],q:"小李为什么想回家？",py:"Xiǎo Lǐ wèishénme xiǎng huí jiā?",options:[["他头疼。","Tā tóuténg. — Anh ấy đau đầu."],["他要买衣服。","Tā yào mǎi yīfu. — Anh ấy muốn mua quần áo."],["他想看电影。","Tā xiǎng kàn diànyǐng. — Anh ấy muốn xem phim."],["他要去上课。","Tā yào qù shàngkè. — Anh ấy muốn đi học."]],answer:0,why:"Lý do được nêu là 有一点儿头疼 — hơi đau đầu."},
+{type:"context",label:"Đoán từ theo ngữ cảnh",q:"我很____，请给我一杯水。",py:"Wǒ hěn ____, qǐng gěi wǒ yì bēi shuǐ.",options:[["渴","kě — khát"],["贵","guì — đắt"],["远","yuǎn — xa"],["忙","máng — bận"]],answer:0,why:"Xin một cốc nước là manh mối cho 渴 — khát."},
+{type:"picture",label:"Nhìn hình chọn câu",picture:["🥱","🛏️","Ngáp và giường ngủ"],q:"Câu nào phù hợp nhất?",options:[["我很困，想睡觉。","Wǒ hěn kùn, xiǎng shuìjiào. — Tôi buồn ngủ, muốn ngủ."],["我很饿，想吃饭。","Wǒ hěn è, xiǎng chī fàn. — Tôi đói, muốn ăn."],["我很热，想喝水。","Wǒ hěn rè, xiǎng hē shuǐ. — Tôi nóng, muốn uống nước."],["我很高兴，想唱歌。","Wǒ hěn gāoxìng, xiǎng chànggē. — Tôi vui, muốn hát."]],answer:0,why:"Ngáp và giường ngủ gợi ý buồn ngủ và muốn ngủ."},
+{type:"reply",label:"Chọn lời đáp",q:"A: 你饿不饿？ B: ____。",py:"A: Nǐ è bu è? B: ____.",options:[["有一点儿，我们去吃饭吧。","Yǒu yìdiǎnr, wǒmen qù chī fàn ba. — Hơi đói, mình đi ăn nhé."],["我姓赵。","Wǒ xìng Zhào. — Tôi họ Triệu."],["今天星期五。","Jīntiān xīngqīwǔ. — Hôm nay thứ Sáu."],["在桌子上。","Zài zhuōzi shàng. — Ở trên bàn."]],answer:0,why:"饿不饿 hỏi có đói không; đáp án trả lời mức độ đói và đề nghị đi ăn."},
+{type:"meaning",label:"Chọn nghĩa đúng",q:"“你等一下，我去给你买药。” nghĩa là gì?",py:"Nǐ děng yíxià, wǒ qù gěi nǐ mǎi yào.",options:[["Bạn đợi một chút, tôi đi mua thuốc cho bạn.",""],["Bạn đi trước, tôi về nhà ngủ.",""],["Tôi mua cho bạn một quyển sách.",""],["Bạn có muốn uống trà không?",""]],answer:0,why:"等一下 = đợi một chút; 买药 = mua thuốc."}]}
+,{id:14,title:"Bạn bè & sở thích",desc:"Nói về thích/không thích và hoạt động giải trí.",qs:[
+{type:"dialogue",label:"Đọc hội thoại",dialogue:[["小安","你喜欢看电影吗？","Nǐ xǐhuan kàn diànyǐng ma?","Bạn thích xem phim không?"],["小美","喜欢。我也喜欢听音乐。","Xǐhuan. Wǒ yě xǐhuan tīng yīnyuè.","Thích. Tôi cũng thích nghe nhạc." ]],q:"小美喜欢做什么？",py:"Xiǎo Měi xǐhuan zuò shénme?",options:[["看电影和听音乐","kàn diànyǐng hé tīng yīnyuè — xem phim và nghe nhạc"],["踢足球和游泳","tī zúqiú hé yóuyǒng — đá bóng và bơi"],["买衣服和做饭","mǎi yīfu hé zuò fàn — mua quần áo và nấu ăn"],["看医生和睡觉","kàn yīshēng hé shuìjiào — đi khám và ngủ"]],answer:0,why:"Cô ấy nói thích xem phim và cũng thích nghe nhạc."},
+{type:"context",label:"Điền từ",q:"我喜欢唱歌，____喜欢跳舞。",py:"Wǒ xǐhuan chànggē, ____ xǐhuan tiàowǔ.",options:[["也","yě — cũng"],["哪儿","nǎr — ở đâu"],["几","jǐ — mấy"],["谁","shéi — ai"]],answer:0,why:"也 biểu thị “cũng”: thích hát, cũng thích nhảy."},
+{type:"picture",label:"Nhìn hình đoán hoạt động",picture:["⚽","🏃","Bóng đá và vận động"],q:"他周末喜欢做什么？",py:"Tā zhōumò xǐhuan zuò shénme?",options:[["踢足球","tī zúqiú — đá bóng"],["写汉字","xiě Hànzì — viết chữ Hán"],["做饭","zuò fàn — nấu ăn"],["坐飞机","zuò fēijī — đi máy bay"]],answer:0,why:"Quả bóng gợi ý hoạt động đá bóng."},
+{type:"reply",label:"Chọn câu đáp",q:"A: 你为什么喜欢汉语？ B: ____。",py:"A: Nǐ wèishénme xǐhuan Hànyǔ? B: ____.",options:[["因为很有意思。","Yīnwèi hěn yǒu yìsi. — Vì rất thú vị."],["我在家里。","Wǒ zài jiālǐ. — Tôi ở nhà."],["我买三个。","Wǒ mǎi sān ge. — Tôi mua ba cái."],["现在五点。","Xiànzài wǔ diǎn. — Bây giờ 5 giờ."]],answer:0,why:"为什么 hỏi lý do; 因为 đưa ra lý do."},
+{type:"odd",label:"Tìm từ khác nhóm",q:"Từ nào KHÔNG cùng nhóm hoạt động giải trí?",options:[["医生","yīshēng — bác sĩ"],["唱歌","chànggē — hát"],["跳舞","tiàowǔ — nhảy"],["听音乐","tīng yīnyuè — nghe nhạc"]],answer:0,why:"唱歌, 跳舞, 听音乐 là hoạt động giải trí; 医生 là nghề nghiệp."}]}
+,{id:15,title:"Phương tiện & du lịch",desc:"Hỏi cách đi, địa điểm đến và hoạt động khi đi xa.",qs:[
+{type:"dialogue",label:"Đọc hội thoại",dialogue:[["小陈","你怎么去北京？","Nǐ zěnme qù Běijīng?","Bạn đi Bắc Kinh bằng gì?"],["小王","我坐飞机去，明天早上走。","Wǒ zuò fēijī qù, míngtiān zǎoshang zǒu.","Tôi đi máy bay, sáng mai khởi hành." ]],q:"小王怎么去北京？",py:"Xiǎo Wáng zěnme qù Běijīng?",options:[["坐飞机","zuò fēijī — đi máy bay"],["坐船","zuò chuán — đi thuyền"],["走路","zǒulù — đi bộ"],["骑自行车","qí zìxíngchē — đi xe đạp"]],answer:0,why:"小王 nói 我坐飞机去 — tôi đi bằng máy bay."},
+{type:"context",label:"Điền từ theo ngữ cảnh",q:"火车站离我家很远，我要坐____去。",py:"Huǒchēzhàn lí wǒ jiā hěn yuǎn, wǒ yào zuò ____ qù.",options:[["出租车","chūzūchē — taxi"],["筷子","kuàizi — đũa"],["衣服","yīfu — quần áo"],["苹果","píngguǒ — táo"]],answer:0,why:"Đến ga tàu ở xa thì đi taxi là phương án hợp ngữ cảnh."},
+{type:"picture",label:"Nhìn hình chọn từ",picture:["✈️","🧳","Máy bay và hành lý"],q:"我明天坐____去上海。",py:"Wǒ míngtiān zuò ____ qù Shànghǎi.",options:[["飞机","fēijī — máy bay"],["椅子","yǐzi — ghế"],["电视","diànshì — ti-vi"],["杯子","bēizi — cốc"]],answer:0,why:"Máy bay và hành lý gợi ý đi máy bay."},
+{type:"reply",label:"Chọn câu đáp",q:"A: 你什么时候回来？ B: ____。",py:"A: Nǐ shénme shíhou huílai? B: ____.",options:[["星期天回来。","Xīngqītiān huílai. — Chủ nhật về."],["我喜欢苹果。","Wǒ xǐhuan píngguǒ. — Tôi thích táo."],["她是老师。","Tā shì lǎoshī. — Cô ấy là giáo viên."],["三个人。","Sān ge rén. — Ba người."]],answer:0,why:"什么时候 hỏi khi nào; đáp án nêu ngày trở về."},
+{type:"meaning",label:"Hiểu câu thực tế",q:"“请问，去机场怎么走？” nghĩa là gì?",py:"Qǐngwèn, qù jīchǎng zěnme zǒu?",options:[["Xin hỏi, đi đến sân bay thế nào?",""],["Xin hỏi, sân bay có bao nhiêu người?",""],["Bạn muốn ăn gì ở sân bay?",""],["Hôm nay có máy bay không?",""]],answer:0,why:"去机场 = đi đến sân bay; 怎么走 hỏi đường đi như thế nào."}]}
+,{id:16,title:"Vị trí & đồ vật",desc:"Mô tả vị trí đồ vật trong nhà và hỏi đồ vật ở đâu.",qs:[
+{type:"dialogue",label:"Đọc hội thoại",dialogue:[["妈妈","你的手机在哪儿？","Nǐ de shǒujī zài nǎr?","Điện thoại của con ở đâu?"],["小林","在桌子上，电脑旁边。","Zài zhuōzi shàng, diànnǎo pángbiān.","Ở trên bàn, bên cạnh máy tính." ]],q:"手机在哪儿？",py:"Shǒujī zài nǎr?",options:[["桌子上，电脑旁边","zhuōzi shàng, diànnǎo pángbiān — trên bàn, cạnh máy tính"],["椅子下面","yǐzi xiàmian — dưới ghế"],["书包里面","shūbāo lǐmiàn — trong cặp"],["门外面","mén wàimian — ngoài cửa"]],answer:0,why:"Câu trả lời xác định điện thoại ở trên bàn, cạnh máy tính."},
+{type:"context",label:"Điền từ",q:"书在桌子____，不是桌子下面。",py:"Shū zài zhuōzi ____, bú shì zhuōzi xiàmian.",options:[["上","shàng — trên"],["谁","shéi — ai"],["岁","suì — tuổi"],["喝","hē — uống"]],answer:0,why:"上 tạo cụm 桌子上 — ở trên bàn; đối lập với 下面 — phía dưới."},
+{type:"picture",label:"Nhìn hình chọn câu",picture:["📚","🪑","Sách đặt trên ghế"],q:"Câu nào mô tả hình phù hợp nhất?",options:[["书在椅子上。","Shū zài yǐzi shàng. — Sách ở trên ghế."],["书在水里。","Shū zài shuǐ lǐ. — Sách ở trong nước."],["椅子在书里。","Yǐzi zài shū lǐ. — Ghế ở trong sách."],["我买了椅子。","Wǒ mǎi le yǐzi. — Tôi đã mua ghế."]],answer:0,why:"Hình cho thấy sách đặt trên ghế, nên 书在椅子上 là đúng."},
+{type:"reply",label:"Chọn câu đáp",q:"A: 你的杯子呢？ B: ____。",py:"A: Nǐ de bēizi ne? B: ____.",options:[["在桌子上。","Zài zhuōzi shàng. — Ở trên bàn."],["我今年二十岁。","Wǒ jīnnián èrshí suì. — Năm nay tôi 20 tuổi."],["我想喝茶。","Wǒ xiǎng hē chá. — Tôi muốn uống trà."],["明天星期六。","Míngtiān xīngqīliù. — Ngày mai thứ Bảy."]],answer:0,why:"杯子呢 hỏi vị trí cái cốc; câu đáp phù hợp nêu nơi đặt."},
+{type:"odd",label:"Tìm từ khác nhóm",q:"Từ nào KHÔNG phải từ chỉ vị trí?",options:[["旁边","pángbiān — bên cạnh"],["里面","lǐmiàn — bên trong"],["下面","xiàmian — bên dưới"],["昨天","zuótiān — hôm qua"]],answer:3,why:"旁边, 里面, 下面 chỉ vị trí; 昨天 chỉ thời gian."}]}
+];
+
+const dictData = {
+1:[{hz:"你好",py:"nǐ hǎo",vi:"xin chào"},{hz:"你",py:"nǐ",vi:"bạn"},{hz:"我",py:"wǒ",vi:"tôi"},{hz:"他",py:"tā",vi:"anh ấy"},{hz:"叫",py:"jiào",vi:"gọi, tên là"},{hz:"什么",py:"shénme",vi:"cái gì"},{hz:"名字",py:"míngzi",vi:"tên"},{hz:"很高兴",py:"hěn gāoxìng",vi:"rất vui"},{hz:"认识",py:"rènshi",vi:"quen biết"},{hz:"是",py:"shì",vi:"là"},{hz:"中国人",py:"Zhōngguó rén",vi:"người Trung Quốc"},{hz:"越南人",py:"Yuènán rén",vi:"người Việt Nam"},{hz:"吗",py:"ma",vi:"trợ từ nghi vấn (…không?)"},{hz:"呢",py:"ne",vi:"trợ từ (còn… thì sao?)"},{hz:"再见",py:"zàijiàn",vi:"tạm biệt"}],
+2:[{hz:"家",py:"jiā",vi:"nhà, gia đình"},{hz:"有",py:"yǒu",vi:"có"},{hz:"几",py:"jǐ",vi:"mấy"},{hz:"口",py:"kǒu",vi:"lượng từ đếm người trong nhà"},{hz:"人",py:"rén",vi:"người"},{hz:"爸爸",py:"bàba",vi:"bố"},{hz:"妈妈",py:"māma",vi:"mẹ"},{hz:"哥哥",py:"gēge",vi:"anh trai"},{hz:"姐姐",py:"jiějie",vi:"chị gái"},{hz:"弟弟",py:"dìdi",vi:"em trai"},{hz:"妹妹",py:"mèimei",vi:"em gái"},{hz:"和",py:"hé",vi:"và"},{hz:"今年",py:"jīnnián",vi:"năm nay"},{hz:"岁",py:"suì",vi:"tuổi"},{hz:"多大",py:"duō dà",vi:"bao nhiêu tuổi"}],
+3:[{hz:"今天",py:"jīntiān",vi:"hôm nay"},{hz:"明天",py:"míngtiān",vi:"ngày mai"},{hz:"昨天",py:"zuótiān",vi:"hôm qua"},{hz:"星期",py:"xīngqī",vi:"tuần, thứ"},{hz:"星期五",py:"xīngqīwǔ",vi:"thứ Sáu"},{hz:"星期日",py:"xīngqīrì",vi:"Chủ nhật"},{hz:"几号",py:"jǐ hào",vi:"ngày mấy"},{hz:"月",py:"yuè",vi:"tháng"},{hz:"号",py:"hào",vi:"ngày (trong tháng)"},{hz:"年",py:"nián",vi:"năm"},{hz:"现在",py:"xiànzài",vi:"bây giờ"},{hz:"点",py:"diǎn",vi:"giờ"},{hz:"分",py:"fēn",vi:"phút"},{hz:"半",py:"bàn",vi:"rưỡi"},{hz:"上午",py:"shàngwǔ",vi:"buổi sáng"},{hz:"下午",py:"xiàwǔ",vi:"buổi chiều"},{hz:"晚上",py:"wǎnshang",vi:"buổi tối"}],
+4:[{hz:"想",py:"xiǎng",vi:"muốn"},{hz:"喝",py:"hē",vi:"uống"},{hz:"吃",py:"chī",vi:"ăn"},{hz:"茶",py:"chá",vi:"trà"},{hz:"水",py:"shuǐ",vi:"nước"},{hz:"咖啡",py:"kāfēi",vi:"cà phê"},{hz:"牛奶",py:"niúnǎi",vi:"sữa"},{hz:"杯",py:"bēi",vi:"cốc, ly"},{hz:"钱",py:"qián",vi:"tiền"},{hz:"块",py:"kuài",vi:"đồng (đơn vị tiền)"},{hz:"多少",py:"duōshao",vi:"bao nhiêu"},{hz:"买",py:"mǎi",vi:"mua"},{hz:"个",py:"gè",vi:"cái, chiếc"},{hz:"苹果",py:"píngguǒ",vi:"quả táo"},{hz:"水果",py:"shuǐguǒ",vi:"hoa quả"},{hz:"便宜",py:"piányi",vi:"rẻ"},{hz:"贵",py:"guì",vi:"đắt"}],
+5:[{hz:"在",py:"zài",vi:"ở, tại"},{hz:"哪儿",py:"nǎr",vi:"ở đâu"},{hz:"工作",py:"gōngzuò",vi:"làm việc"},{hz:"医院",py:"yīyuàn",vi:"bệnh viện"},{hz:"医生",py:"yīshēng",vi:"bác sĩ"},{hz:"学生",py:"xuésheng",vi:"học sinh"},{hz:"学校",py:"xuéxiào",vi:"trường học"},{hz:"学习",py:"xuéxí",vi:"học"},{hz:"汉语",py:"Hànyǔ",vi:"tiếng Hán"},{hz:"说",py:"shuō",vi:"nói"},{hz:"会",py:"huì",vi:"biết (kỹ năng)"},{hz:"一点儿",py:"yìdiǎnr",vi:"một chút"},{hz:"时间",py:"shíjiān",vi:"thời gian"},{hz:"书",py:"shū",vi:"sách"}],
+6:[{hz:"请问",py:"qǐngwèn",vi:"xin hỏi"},{hz:"商店",py:"shāngdiàn",vi:"cửa hàng"},{hz:"饭馆",py:"fànguǎn",vi:"quán ăn"},{hz:"旁边",py:"pángbiān",vi:"bên cạnh"},{hz:"里面",py:"lǐmiàn",vi:"bên trong"},{hz:"后面",py:"hòumiàn",vi:"phía sau"},{hz:"前面",py:"qiánmiàn",vi:"phía trước"},{hz:"离",py:"lí",vi:"cách (khoảng cách)"},{hz:"近",py:"jìn",vi:"gần"},{hz:"远",py:"yuǎn",vi:"xa"},{hz:"走路",py:"zǒulù",vi:"đi bộ"},{hz:"坐",py:"zuò",vi:"ngồi, đi (xe)"},{hz:"公共汽车",py:"gōnggòng qìchē",vi:"xe buýt"},{hz:"一直",py:"yìzhí",vi:"thẳng, liên tục"},{hz:"左转",py:"zuǒ zhuǎn",vi:"rẽ trái"},{hz:"右转",py:"yòu zhuǎn",vi:"rẽ phải"}],
+7:[{hz:"天气",py:"tiānqì",vi:"thời tiết"},{hz:"怎么样",py:"zěnmeyàng",vi:"thế nào"},{hz:"冷",py:"lěng",vi:"lạnh"},{hz:"热",py:"rè",vi:"nóng"},{hz:"下雨",py:"xià yǔ",vi:"trời mưa"},{hz:"下雪",py:"xià xuě",vi:"tuyết rơi"},{hz:"可能",py:"kěnéng",vi:"có thể"},{hz:"电视",py:"diànshì",vi:"tivi"},{hz:"看",py:"kàn",vi:"xem, đọc"},{hz:"雨伞",py:"yǔsǎn",vi:"ô, dù"},{hz:"外面",py:"wàimiàn",vi:"bên ngoài"},{hz:"忘",py:"wàng",vi:"quên"},{hz:"带",py:"dài",vi:"mang theo"}],
+8:[{hz:"吃饭",py:"chī fàn",vi:"ăn cơm"},{hz:"睡觉",py:"shuìjiào",vi:"ngủ"},{hz:"累",py:"lèi",vi:"mệt"},{hz:"放",py:"fàng",vi:"đặt, để"},{hz:"桌子",py:"zhuōzi",vi:"cái bàn"},{hz:"上",py:"shàng",vi:"trên"},{hz:"下",py:"xià",vi:"dưới"},{hz:"对不起",py:"duìbuqǐ",vi:"xin lỗi"},{hz:"没关系",py:"méi guānxi",vi:"không sao"},{hz:"能",py:"néng",vi:"có thể"},{hz:"喜欢",py:"xǐhuan",vi:"thích"},{hz:"把",py:"bǎ",vi:"giới từ trong cấu trúc 把"}],
+9:[{hz:"每天",py:"měitiān",vi:"mỗi ngày"},{hz:"起床",py:"qǐchuáng",vi:"thức dậy"},{hz:"早上",py:"zǎoshang",vi:"buổi sáng"},{hz:"常常",py:"chángcháng",vi:"thường xuyên"},{hz:"刷牙",py:"shuā yá",vi:"đánh răng"},{hz:"洗脸",py:"xǐ liǎn",vi:"rửa mặt"},{hz:"以后",py:"yǐhòu",vi:"sau đó, về sau"},{hz:"上课",py:"shàngkè",vi:"lên lớp"},{hz:"做",py:"zuò",vi:"làm"},{hz:"休息",py:"xiūxi",vi:"nghỉ ngơi"}],
+10:[{hz:"老师",py:"lǎoshī",vi:"giáo viên"},{hz:"学",py:"xué",vi:"học"},{hz:"写",py:"xiě",vi:"viết"},{hz:"汉字",py:"Hànzì",vi:"chữ Hán"},{hz:"字",py:"zì",vi:"chữ"},{hz:"读",py:"dú",vi:"đọc"},{hz:"怎么",py:"zěnme",vi:"thế nào, làm sao"},{hz:"打开",py:"dǎkāi",vi:"mở ra"},{hz:"页",py:"yè",vi:"trang"},{hz:"第",py:"dì",vi:"thứ (số thứ tự)"},{hz:"次",py:"cì",vi:"lần"}],
+11:[{hz:"衣服",py:"yīfu",vi:"quần áo"},{hz:"件",py:"jiàn",vi:"lượng từ (áo, quần)"},{hz:"红色",py:"hóngsè",vi:"màu đỏ"},{hz:"蓝色",py:"lánsè",vi:"màu xanh lam"},{hz:"颜色",py:"yánsè",vi:"màu sắc"},{hz:"还是",py:"háishi",vi:"hay là (câu hỏi lựa chọn)"},{hz:"太…了",py:"tài… le",vi:"… quá"},{hz:"大",py:"dà",vi:"to, lớn"},{hz:"小",py:"xiǎo",vi:"nhỏ"},{hz:"试",py:"shì",vi:"thử"},{hz:"穿",py:"chuān",vi:"mặc"},{hz:"双",py:"shuāng",vi:"đôi"}],
+12:[{hz:"服务员",py:"fúwùyuán",vi:"nhân viên phục vụ"},{hz:"米饭",py:"mǐfàn",vi:"cơm"},{hz:"鸡蛋",py:"jīdàn",vi:"trứng gà"},{hz:"面条",py:"miàntiáo",vi:"mì"},{hz:"蔬菜",py:"shūcài",vi:"rau"},{hz:"肉",py:"ròu",vi:"thịt"},{hz:"鱼",py:"yú",vi:"cá"},{hz:"筷子",py:"kuàizi",vi:"đũa"},{hz:"给",py:"gěi",vi:"cho, đưa"},{hz:"请",py:"qǐng",vi:"mời, xin hãy"},{hz:"要",py:"yào",vi:"cần, muốn lấy"}],
+13:[{hz:"舒服",py:"shūfu",vi:"thoải mái, dễ chịu"},{hz:"不舒服",py:"bù shūfu",vi:"không khỏe"},{hz:"头疼",py:"tóuténg",vi:"đau đầu"},{hz:"饿",py:"è",vi:"đói"},{hz:"渴",py:"kě",vi:"khát"},{hz:"困",py:"kùn",vi:"buồn ngủ"},{hz:"药",py:"yào",vi:"thuốc"},{hz:"等",py:"děng",vi:"đợi"},{hz:"一下",py:"yíxià",vi:"một chút, một lát"},{hz:"回家",py:"huí jiā",vi:"về nhà"}],
+14:[{hz:"朋友",py:"péngyou",vi:"bạn bè"},{hz:"听",py:"tīng",vi:"nghe"},{hz:"音乐",py:"yīnyuè",vi:"âm nhạc"},{hz:"唱歌",py:"chànggē",vi:"hát"},{hz:"跳舞",py:"tiàowǔ",vi:"nhảy, khiêu vũ"},{hz:"踢足球",py:"tī zúqiú",vi:"đá bóng"},{hz:"游泳",py:"yóuyǒng",vi:"bơi"},{hz:"周末",py:"zhōumò",vi:"cuối tuần"},{hz:"有意思",py:"yǒu yìsi",vi:"thú vị"},{hz:"因为",py:"yīnwèi",vi:"bởi vì"},{hz:"也",py:"yě",vi:"cũng"},{hz:"电影",py:"diànyǐng",vi:"phim"}],
+15:[{hz:"飞机",py:"fēijī",vi:"máy bay"},{hz:"出租车",py:"chūzūchē",vi:"taxi"},{hz:"火车",py:"huǒchē",vi:"tàu hỏa"},{hz:"火车站",py:"huǒchēzhàn",vi:"ga tàu"},{hz:"船",py:"chuán",vi:"thuyền"},{hz:"自行车",py:"zìxíngchē",vi:"xe đạp"},{hz:"机场",py:"jīchǎng",vi:"sân bay"},{hz:"走",py:"zǒu",vi:"đi, khởi hành"},{hz:"回来",py:"huílai",vi:"trở về"},{hz:"什么时候",py:"shénme shíhou",vi:"khi nào"},{hz:"北京",py:"Běijīng",vi:"Bắc Kinh"}],
+16:[{hz:"手机",py:"shǒujī",vi:"điện thoại di động"},{hz:"电脑",py:"diànnǎo",vi:"máy vi tính"},{hz:"杯子",py:"bēizi",vi:"cái cốc"},{hz:"椅子",py:"yǐzi",vi:"cái ghế"},{hz:"书包",py:"shūbāo",vi:"cặp sách"},{hz:"门",py:"mén",vi:"cửa"},{hz:"里",py:"lǐ",vi:"trong"},{hz:"外",py:"wài",vi:"ngoài"},{hz:"上面",py:"shàngmian",vi:"phía trên"},{hz:"下面",py:"xiàmian",vi:"phía dưới"},{hz:"旁边",py:"pángbiān",vi:"bên cạnh"},{hz:"在",py:"zài",vi:"ở (chỉ vị trí)"}]
+};
+
+const extraQs = {
+1:[
+{type:"build",label:"Ghép câu",q:"Ghép các từ thành câu: “Tôi tên là Vương Minh.”",words:["我","叫","王明","你好"],answer:"我叫王明。",why:"Trật tự: 我 + 叫 + tên. 你好 là từ gây nhiễu."},
+{type:"type",label:"Gõ đáp án",q:"Viết bằng tiếng Trung: “Rất vui được gặp bạn.” (gõ chữ Hán hoặc pinyin không dấu)",hint:"很高兴 + 认识 + 你",accept:["很高兴认识你","很高兴认识你。","很高兴见到你","hengaoxingrenshini"],answerText:"很高兴认识你。（Hěn gāoxìng rènshi nǐ.）",why:"很高兴 = rất vui; 认识你 = quen biết bạn."},
+{type:"tf",label:"Đúng hay sai",text:"小王：你好！我叫王明，我是中国人。\n小李：你好！我是越南人。很高兴认识你。",q:"Nhận định: “小王 là người Việt Nam.”",answer:1,why:"小王 nói 我是中国人 — anh ấy là người Trung Quốc. Người Việt Nam là 小李."}
+],
+2:[
+{type:"build",label:"Ghép câu",q:"Ghép các từ thành câu: “Nhà tôi có bốn người.”",words:["我家","有","四口人","今年"],answer:"我家有四口人。",why:"我家 + 有 + 四口人. 今年 là từ gây nhiễu."},
+{type:"type",label:"Gõ đáp án",q:"Viết bằng tiếng Trung: “Năm nay tôi hai mươi tuổi.”",hint:"今年 + 二十 + 岁",accept:["我今年二十岁","我今年二十岁。","今年我二十岁","wojinnianershiusui"],answerText:"我今年二十岁。（Wǒ jīnnián èrshí suì.）",why:"今年 = năm nay; 岁 = tuổi."},
+{type:"tf",label:"Đúng hay sai",text:"小林：你家有几口人？\n小陈：我家有四口人：爸爸、妈妈、姐姐和我。",q:"Nhận định: “小陈 có một chị gái.”",answer:0,why:"Danh sách liệt kê có 姐姐 — chị gái."}
+],
+3:[
+{type:"build",label:"Ghép câu",q:"Ghép câu hỏi: “Hôm nay thứ mấy?”",words:["今天","星期","几","明天"],answer:"今天星期几？",why:"今天 + 星期 + 几 → hỏi thứ mấy. 明天 là từ gây nhiễu."},
+{type:"type",label:"Gõ đáp án",q:"Viết bằng tiếng Trung: “Bây giờ là ba giờ rưỡi.”",hint:"现在 + 三点半",accept:["现在三点半","现在三点半。","现在三点半了","xianzaisandianban"],answerText:"现在三点半。（Xiànzài sān diǎn bàn.）",why:"点半 = … giờ rưỡi."},
+{type:"tf",label:"Đúng hay sai",text:"小赵：今天星期几？\n小周：今天星期五。明天星期六。",q:"Nhận định: “Ngày mai là Chủ nhật.”",answer:1,why:"Ngày mai là 星期六 — thứ Bảy."}
+],
+4:[
+{type:"build",label:"Ghép câu",q:"Ghép các từ thành câu: “Tôi muốn uống một cốc trà.”",words:["我","想","喝","一杯茶"],answer:"我想喝一杯茶。",why:"我 + 想 + 喝 + 一杯茶."},
+{type:"type",label:"Gõ đáp án",q:"Viết bằng tiếng Trung: “Cái này bao nhiêu tiền?”",hint:"这个 + 多少 + 钱",accept:["这个多少钱","这个多少钱？","这个多少钱。","zhegeduoshaoqian"],answerText:"这个多少钱？（Zhège duōshao qián?）",why:"多少 hỏi số lượng, ở đây là hỏi giá."},
+{type:"tf",label:"Đúng hay sai",text:"服务员：你想喝什么？\n小李：我想喝茶。请给我一杯茶。\n服务员：好，五块钱。",q:"Nhận định: “Cốc trà giá 10 tệ.”",answer:1,why:"服务员 nói 五块钱 — 5 tệ."}
+],
+5:[
+{type:"build",label:"Ghép câu",q:"Ghép các từ thành câu: “Tôi học tiếng Hán ở trường.”",words:["我","在学校","学习","汉语","医生"],answer:"我在学校学习汉语。",why:"我 + 在学校 + 学习 + 汉语. 医生 là từ gây nhiễu."},
+{type:"type",label:"Gõ đáp án",q:"Viết bằng tiếng Trung: “Tôi biết nói một chút tiếng Hán.”",hint:"我会说 + 一点儿 + 汉语",accept:["我会说一点儿汉语","我会说一点儿汉语。","我会说一点汉语","wohuishuoyidianrhanyu"],answerText:"我会说一点儿汉语。（Wǒ huì shuō yìdiǎnr Hànyǔ.）",why:"会 = biết (kỹ năng); 一点儿 = một chút."},
+{type:"tf",label:"Đúng hay sai",text:"小王：你在哪儿工作？\n小陈：我在医院工作。我是医生。",q:"Nhận định: “小陈 là giáo viên.”",answer:1,why:"小陈 nói 我是医生 — bác sĩ."}
+],
+6:[
+{type:"build",label:"Ghép câu",q:"Ghép câu hỏi: “Xin hỏi, bệnh viện ở đâu?”",words:["请问","医院","在","哪儿"],answer:"请问医院在哪儿？",why:"请问 mở đầu câu hỏi lịch sự; 在哪儿 hỏi vị trí."},
+{type:"type",label:"Gõ đáp án",q:"Viết bằng tiếng Trung: “I đi học bằng xe buýt.”",hint:"我坐 + 公共汽车 + 去学校",accept:["我坐公共汽车去学校","我坐公共汽车去学校。","wozuogonggongqichequxuexiao"],answerText:"我坐公共汽车去学校。（Wǒ zuò gōnggòng qìchē qù xuéxiào.）",why:"坐 + phương tiện + 去 + địa điểm."},
+{type:"tf",label:"Đúng hay sai",text:"小李：请问，医院在哪儿？\n路人：在学校旁边。一直往前走，然后左转。",q:"Nhận định: “Bệnh viện ở phía sau trường học.”",answer:1,why:"Người chỉ đường nói 在学校旁边 — ở bên cạnh trường học."}
+],
+7:[
+{type:"build",label:"Ghép câu",q:"Ghép các từ thành câu: “Hôm nay rất lạnh, còn mưa nữa.”",words:["今天","很冷","还","下雨","热"],answer:"今天很冷，还下雨。",why:"还 = còn… nữa. 热 là từ gây nhiễu."},
+{type:"type",label:"Gõ đáp án",q:"Viết bằng tiếng Trung: “Hôm nay thời tiết thế nào?”",hint:"今天 + 天气 + 怎么样",accept:["今天天气怎么样","今天天气怎么样？","今天天气怎么样。","jintiantianqizenmeyang"],answerText:"今天天气怎么样？（Jīntiān tiānqì zěnmeyàng?）",why:"怎么样 = thế nào."},
+{type:"tf",label:"Đúng hay sai",text:"小美：今天怎么样？\n小安：今天很冷，还下雨。",q:"Nhận định: “Thời tiết hôm nay nóng.”",answer:1,why:"小安 nói 很冷 — rất lạnh, và 还下雨 — còn mưa."}
+],
+8:[
+{type:"build",label:"Ghép câu",q:"Ghép các từ thành câu: “Tôi đặt sách ở trên bàn.”",words:["我","把书","放在","桌子上"],answer:"我把书放在桌子上。",why:"Cấu trúc 把: 我 + 把 + tân ngữ + động từ + 在 + nơi chốn."},
+{type:"type",label:"Gõ đáp án",q:"Viết bằng tiếng Trung: “Xin lỗi, không sao đâu.”",hint:"对不起 ↔ 没关系",accept:["对不起没关系","对不起，没关系","对不起，没关系。","duibuqimeiguanxi"],answerText:"对不起，没关系。（Duìbuqǐ, méi guānxi.）",why:"对不起 = xin lỗi; 没关系 = không sao."},
+{type:"tf",label:"Đúng hay sai",text:"妈妈：你吃饭了吗？\n小明：还没有。我现在去吃。",q:"Nhận định: “小明 đã ăn cơm rồi.”",answer:1,why:"小明 nói 还没有 — vẫn chưa ăn cơm."}
+],
+9:[
+{type:"build",label:"Ghép câu",q:"Ghép các từ thành câu: “Mỗi ngày tôi thức dậy lúc 7 giờ.”",words:["我","每天","七点","起床","睡觉"],answer:"我每天七点起床。",why:"我 + 每天 + thời gian + 起床. 睡觉 là từ gây nhiễu."},
+{type:"type",label:"Gõ đáp án",q:"Viết bằng tiếng Trung: “Buổi tối tôi thường đọc sách.”",hint:"晚上 + 常常 + 看书",accept:["我晚上常常看书","我晚上常常看书。","晚上我常常看书","wowanshangchangchangkanshu"],answerText:"我晚上常常看书。（Wǒ wǎnshang chángcháng kàn shū.）",why:"常常 = thường xuyên; 看书 = đọc sách."},
+{type:"tf",label:"Đúng hay sai",text:"小美：你每天几点起床？\n小林：我七点起床，八点去学校。",q:"Nhận định: “小林 đi học lúc 8 giờ.”",answer:0,why:"小林 nói 八点去学校 — 8 giờ đi học."}
+],
+10:[
+{type:"build",label:"Ghép câu",q:"Ghép các từ thành câu: “Hãy mở sách, xem trang 10.”",words:["请","打开","书","看","第十页"],answer:"请打开书，看第十页。",why:"打开 = mở ra; 第十页 = trang thứ mười."},
+{type:"type",label:"Gõ đáp án",q:"Viết bằng tiếng Trung: “Hôm nay chúng em học tiếng Hán.”",hint:"我们 + 今天 + 学习 + 汉语",accept:["我们今天学习汉语","我们今天学习汉语。","今天我们学习汉语","womenjintianxuexihanyu"],answerText:"我们今天学习汉语。（Wǒmen jīntiān xuéxí Hànyǔ.）",why:"Trật tự: chủ ngữ + thời gian + động từ + tân ngữ."},
+{type:"tf",label:"Đúng hay sai",text:"老师：你们今天学什么？\n学生：我们学习汉语，还写汉字。",q:"Nhận định: “Học sinh chỉ học nói, không viết chữ Hán.”",answer:1,why:"Học sinh nói 还写汉字 — còn viết chữ Hán nữa."}
+],
+11:[
+{type:"build",label:"Ghép câu",q:"Ghép các từ thành câu: “Tôi muốn mua chiếc áo này.”",words:["我","想","买","这件衣服","一百块"],answer:"我想买这件衣服。",why:"我想买 + đồ vật. 一百块 là từ gây nhiễu."},
+{type:"type",label:"Gõ đáp án",q:"Viết bằng tiếng Trung: “Bộ quần áo này bao nhiêu tiền?”",hint:"这件衣服 + 多少钱",accept:["这件衣服多少钱","这件衣服多少钱？","这件衣服多少钱。","zhejianyifuduoshaoqian"],answerText:"这件衣服多少钱？（Zhè jiàn yīfu duōshao qián?）",why:"件 là lượng từ dùng cho áo, quần."},
+{type:"tf",label:"Đúng hay sai",text:"顾客：这件衣服多少钱？\n店员：一百块。\n顾客：有便宜一点儿的吗？",q:"Nhận định: “Khách thấy giá đắt nên hỏi loại rẻ hơn.”",answer:0,why:"有便宜一点儿的吗 — hỏi có loại rẻ hơn một chút không."}
+],
+12:[
+{type:"build",label:"Ghép câu",q:"Ghép các từ thành câu: “Tôi muốn ăn cơm và trứng.”",words:["我","要","吃","米饭","和","鸡蛋"],answer:"我要吃米饭和鸡蛋。",why:"和 dùng để nối hai danh từ."},
+{type:"type",label:"Gõ đáp án",q:"Viết bằng tiếng Trung: “Làm ơn cho tôi một đôi đũa.”",hint:"请 + 给我 + 一双 + 筷子",accept:["请给我一双筷子","请给我一双筷子。","给我一双筷子","qinggeiwoyishuangkuazi"],answerText:"请给我一双筷子。（Qǐng gěi wǒ yì shuāng kuàizi.）",why:"双 là lượng từ cho đồ vật tính theo đôi."},
+{type:"tf",label:"Đúng hay sai",text:"服务员：你们想吃什么？\n小张：我要米饭和鸡蛋。她要面条。",q:"Nhận định: “小张 ăn mì.”",answer:1,why:"小张 ăn 米饭和鸡蛋; 面条 là món cô gái kia gọi."}
+],
+13:[
+{type:"build",label:"Ghép câu",q:"Ghép các từ thành câu: “Tôi hơi đau đầu, muốn về nhà nghỉ.”",words:["我","有一点儿","头疼","想","回家休息"],answer:"我有一点儿头疼，想回家休息。",why:"有一点儿 = hơi…; 回家休息 = về nhà nghỉ ngơi."},
+{type:"type",label:"Gõ đáp án",q:"Viết bằng tiếng Trung: “Tôi rất khát, cho tôi một cốc nước.”",hint:"我很渴 + 请给我 + 一杯水",accept:["我很渴请给我一杯水","我很渴，请给我一杯水","我很渴，请给我一杯水。","wohenkeqinggeiwoyibeishui"],answerText:"我很渴，请给我一杯水。（Wǒ hěn kě, qǐng gěi wǒ yì bēi shuǐ.）",why:"渴 = khát; 杯 = cốc, ly."},
+{type:"tf",label:"Đúng hay sai",text:"小王：你怎么了？不舒服吗？\n小李：我有一点儿头疼，想回家休息。",q:"Nhận định: “小李 bị đau bụng.”",answer:1,why:"小李 nói 头疼 — đau đầu, không phải đau bụng."}
+],
+14:[
+{type:"build",label:"Ghép câu",q:"Ghép các từ thành câu: “Tôi thích hát, cũng thích nhảy.”",words:["我","喜欢","唱歌","也","喜欢","跳舞"],answer:"我喜欢唱歌，也喜欢跳舞。",why:"也 = cũng, đứng trước động từ."},
+{type:"type",label:"Gõ đáp án",q:"Viết bằng tiếng Trung: “Bạn thích xem phim không?”",hint:"你喜欢 + 看 + 电影 + 吗",accept:["你喜欢看电影吗","你喜欢看电影吗？","你喜欢看电影吗。","nixihuankandianyingma"],answerText:"你喜欢看电影吗？（Nǐ xǐhuan kàn diànyǐng ma?）",why:"吗 đặt cuối câu tạo câu hỏi có/không."},
+{type:"tf",label:"Đúng hay sai",text:"小安：你喜欢看电影吗？\n小美：喜欢。我也喜欢听音乐。",q:"Nhận định: “小美 chỉ thích xem phim, không thích nghe nhạc.”",answer:1,why:"小美 nói 我也喜欢听音乐 — cũng thích nghe nhạc."}
+],
+15:[
+{type:"build",label:"Ghép câu",q:"Ghép các từ thành câu: “Tôi đi Bắc Kinh bằng máy bay.”",words:["我","坐飞机","去","北京","出租车"],answer:"我坐飞机去北京。",why:"坐 + phương tiện + 去 + địa điểm. 出租车 là từ gây nhiễu."},
+{type:"type",label:"Gõ đáp án",q:"Viết bằng tiếng Trung: “Xin hỏi, đi sân bay thế nào?”",hint:"请问 + 去机场 + 怎么走",accept:["请问去机场怎么走","请问去机场怎么走？","请问，去机场怎么走","qingwenqujichangzenmezou"],answerText:"请问，去机场怎么走？（Qǐngwèn, qù jīchǎng zěnme zǒu?）",why:"怎么走 = đi như thế nào."},
+{type:"tf",label:"Đúng hay sai",text:"小陈：你怎么去北京？\n小王：我坐飞机去，明天早上走。",q:"Nhận định: “小王 đi tàu hỏa đến Bắc Kinh.”",answer:1,why:"小王 nói 坐飞机 — đi máy bay."}
+],
+16:[
+{type:"build",label:"Ghép câu",q:"Ghép các từ thành câu: “Điện thoại ở trên bàn, cạnh máy tính.”",words:["手机","在","桌子上","电脑","旁边"],answer:"手机在桌子上，电脑旁边。",why:"在 + nơi chốn; 旁边 = bên cạnh."},
+{type:"type",label:"Gõ đáp án",q:"Viết bằng tiếng Trung: “Sách ở trên ghế.”",hint:"书 + 在 + 椅子上",accept:["书在椅子上","书在椅子上。","shuzaiyizishang"],answerText:"书在椅子上。（Shū zài yǐzi shàng.）",why:"在…上 = ở trên…"},
+{type:"tf",label:"Đúng hay sai",text:"妈妈：你的手机在哪儿？\n小林：在桌子上，电脑旁边。",q:"Nhận định: “Điện thoại ở dưới ghế.”",answer:1,why:"Câu trả lời nói 在桌子上，电脑旁边 — ở trên bàn, cạnh máy tính."}
+]
+};
+
+lessons.forEach(l=>{if(dictData[l.id])l.vocab=dictData[l.id];if(extraQs[l.id])l.qs.push(...extraQs[l.id]);});
+
+const $=s=>document.querySelector(s);
+let currentLesson=1, questions=[], index=0, answers={}, examMode=false, finished=false, randomMode=false;
+let showPy=false, showVi=true;
+let view="quiz", searchQuery="", dictAll=false, draft={};
+const letters=["A","B","C","D"];
+
+function flatLesson(id){return lessons.find(x=>x.id===id).qs.map((q,i)=>({...q,lessonId:id,localIndex:i,key:`${id}-${i}`}));}
+
+function buildLessonList(){
+ const el=$("#lessonList");el.innerHTML="";
+ lessons.forEach(l=>{const b=document.createElement("button");b.className="lesson-btn"+(!examMode&&currentLesson===l.id?" active":"");b.innerHTML=`<span class="num">${String(l.id).padStart(2,"0")}</span><span>${l.title}</span>`;b.onclick=()=>{examMode=false;randomMode=false;finished=false;currentLesson=l.id;questions=flatLesson(l.id);index=0;answers={};render();};el.appendChild(b);});
+}
+
+function visiblePy(s){return showPy?`<div class="py">${esc(s||"")}</div>`:"";}
+function visibleVi(s){return showVi&&s?`<div class="translation">${esc(s)}</div>`:"";}
+function esc(s){return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
+function norm(s){return String(s??"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[0-9]/g,"").replace(/[\s，。、！？；：,.!?;:"'“”‘’()（）·\-—]/g,"").toLowerCase();}
+
+function isCorrect(q,v){
+ if(v===undefined)return false;
+ if(q.type==="build")return norm(Array.isArray(v)?v.map(i=>q.words[i]).join(""):v)===norm(q.answer);
+ if(q.type==="type"){const t=norm(v);return (q.accept||[]).some(a=>norm(a)===t)||t===norm(q.answerText);}
+ if(q.type==="tf")return v===q.answer;
+ return v===q.answer;
+}
+
+function hlText(s,q){
+ if(!q)return esc(s);
+ const src=String(s),low=src.toLowerCase();let out="",i=0;
+ while(i<src.length){const p=low.indexOf(q,i);if(p<0){out+=esc(src.slice(i));break;}out+=esc(src.slice(i,p))+'<mark class="hl">'+esc(src.slice(p,p+q.length))+'</mark>';i=p+q.length;}
+ return out;
+}
+
+function render(){
+ buildLessonList();
+ $("#modePill").textContent=randomMode?"Luyện ngẫu nhiên":(examMode?"Thi thử tổng hợp":"Luyện theo chủ đề");
+ const l=lessons.find(x=>x.id===currentLesson);
+ $("#lessonTitle").textContent=examMode?"Đề thi thử HSK 1":l.title;
+ $("#lessonDesc").textContent=examMode?"20 câu trộn từ nhiều tình huống. Làm hết câu rồi xem kết quả.":" "+l.desc+" Chọn đáp án, đọc giải thích rồi chuyển câu tiếp theo.";
+ $("#countStat").textContent=`${questions.length} câu ${examMode?"trong đề thi":"trong chủ đề"}`;
+ $("#vocabStat").textContent=`${(l.vocab||[]).length} từ vựng`;
+ const done=Object.keys(answers).filter(k=>answers[k]!==undefined).length;
+ const correct=questions.filter(q=>isCorrect(q,answers[q.key])).length;
+ $("#scoreStat").textContent=`Đúng: ${correct}`;$("#doneStat").textContent=`Đã làm: ${done}`;
+ $("#progressFill").style.width=(questions.length?done/questions.length*100:0)+"%";
+ if(finished){renderResults();if(view==="dict")renderDict();return;}
+ const q=questions[index];if(!q){$("#questionArea").innerHTML='<div class="card empty">Không có câu hỏi.</div>';return;}
+ const selected=answers[q.key];
+ let html=`<section class="card"><div class="qtop"><span>Câu ${index+1}/${questions.length}</span><span class="tag">${esc(q.label)}</span></div>`;
+ if(q.dialogue){html+='<div class="dialogue">';q.dialogue.forEach(d=>{html+=`<div class="line"><div class="speaker">${esc(d[0])}</div><div><div class="cn">${esc(d[1])}</div>${visiblePy(d[2])}${visibleVi(d[3])}</div></div>`});html+='</div>';}
+ if(q.picture){html+=`<div class="picture"><div class="emoji">${esc(q.picture[0])} ${esc(q.picture[1])}</div><div class="pic-caption">${esc(q.picture[2])}</div></div>`;}
+ if(q.type==="tf"&&q.text){html+=`<div class="passage">${esc(q.text)}</div>`;}
+ html+=`<div class="prompt">${esc(q.q)}</div>${visiblePy(q.py)}`;
+ let tfOpts=[["Đúng ✓",""],["Sai ✗",""]];
+ if(q.type==="build"){
+  const cur=selected!==undefined?(Array.isArray(selected)?selected:[]):(draft[q.key]||[]);
+  const locked=selected!==undefined;
+  html+='<div class="build-row" id="buildRow">'+(cur.length?cur.map((wi,pos)=>`<button class="tile" ${locked?"disabled":`data-pick="${pos}"`}>${esc(q.words[wi])}</button>`).join(""):'<span class="hintline">Bấm các từ bên dưới theo đúng thứ tự để ghép thành câu.</span>')+'</div>';
+  if(!locked){
+   html+='<div class="tiles" id="wordBank">'+q.words.map((w,i)=>`<button class="tile" data-word="${i}" ${cur.includes(i)?"disabled":""}>${esc(w)}</button>`).join("")+'</div>';
+   html+='<div class="chiprow"><button class="btn" id="undoBtn" '+(cur.length?"":"disabled")+'>← Xóa từ cuối</button><button class="btn primary" id="checkBtn" '+(cur.length?"":"disabled")+'>Kiểm tra</button></div>';
+  }
+ }else if(q.type==="type"){
+  html+=`<input class="typein" id="typein" type="text" placeholder="Gõ câu tiếng Trung (chữ Hán hoặc pinyin)…" value="${esc(selected===undefined?"":selected)}" ${selected!==undefined?"disabled":""} autocomplete="off" spellcheck="false">`;
+  if(q.hint)html+=`<div class="hintline">Gợi ý: ${esc(q.hint)}</div>`;
+  if(selected===undefined)html+='<div class="chiprow"><button class="btn primary" id="checkBtn">Kiểm tra</button></div>';
+ }else{
+  const opts=q.type==="tf"?tfOpts:q.options;
+  html+='<div class="options">';
+  opts.forEach((o,i)=>{let cls="option";if(selected!==undefined){if(i===q.answer)cls+=" correct";else if(i===selected)cls+=" wrong";}
+  html+=`<button class="${cls}" data-opt="${i}" ${selected!==undefined?"disabled":""}><span class="letter">${letters[i]}</span><span><span class="opt-cn">${esc(o[0])}</span>${o[1]?`<div class="opt-sub">${esc(o[1])}</div>`:""}</span></button>`});
+  html+='</div>';
+ }
+ if(selected!==undefined){
+  const ok=isCorrect(q,selected);
+  const ansTxt=q.type==="build"?q.answer:(q.type==="type"?(q.answerText||(q.accept||[])[0]):`${letters[q.answer]} — ${(q.type==="tf"?tfOpts:q.options)[q.answer][0]}`);
+  html+=`<div class="feedback ${ok?"good":"bad"}"><strong>${ok?"Chính xác!":"Chưa đúng."} Đáp án: ${esc(ansTxt)}</strong>${esc(q.why)}</div>`;
+ }
+ html+=`<div class="controls"><button class="btn" id="prevBtn" ${index===0?"disabled":""}>← Trước</button><button class="btn primary" id="nextBtn" ${selected===undefined?"disabled":""}>${index===questions.length-1?"Xem kết quả":"Tiếp theo →"}</button></div></section>`;
+ $("#questionArea").innerHTML=html;
+ document.querySelectorAll("[data-opt]").forEach(b=>b.onclick=()=>{if(answers[q.key]===undefined){answers[q.key]=Number(b.dataset.opt);render();}});
+ if(q.type==="build"&&selected===undefined){
+  const setDraft=arr=>{draft[q.key]=arr;render();};
+  document.querySelectorAll("[data-word]").forEach(b=>b.onclick=()=>{const arr=(draft[q.key]||[]).slice();arr.push(Number(b.dataset.word));setDraft(arr);});
+  document.querySelectorAll("[data-pick]").forEach(b=>b.onclick=()=>{const arr=(draft[q.key]||[]).slice();arr.splice(Number(b.dataset.pick),1);setDraft(arr);});
+  if($("#undoBtn"))$("#undoBtn").onclick=()=>{const arr=(draft[q.key]||[]).slice();arr.pop();setDraft(arr);};
+  if($("#checkBtn"))$("#checkBtn").onclick=()=>{if((draft[q.key]||[]).length){answers[q.key]=draft[q.key].slice();render();}};
+ }else if(q.type==="type"&&selected===undefined){
+  const inp=$("#typein");
+  const submit=()=>{if(inp&&inp.value.trim()){answers[q.key]=inp.value.trim();render();}};
+  if(inp)inp.onkeydown=e=>{if(e.key==="Enter")submit();};
+  if($("#checkBtn"))$("#checkBtn").onclick=submit;
+ }
+ $("#prevBtn").onclick=()=>{if(index>0){index--;render();}};
+ $("#nextBtn").onclick=()=>{if(index<questions.length-1){index++;render();}else{finished=true;render();}};
+ if(view==="dict")renderDict();
+}
+
+function renderResults(){
+ const correct=questions.filter(q=>isCorrect(q,answers[q.key])).length, total=questions.length, pct=Math.round(correct/total*100);
+ let message=pct>=90?"Rất tốt! Bạn đã nắm được phần lớn ngữ cảnh.":pct>=70?"Ổn rồi. Ôn lại các câu sai để nhớ cách dùng tự nhiên hơn.":"Cứ bình tĩnh ôn lại từng hội thoại, chú ý từ khóa thời gian, địa điểm và hành động.";
+ $("#questionArea").innerHTML=`<section class="card results"><div class="eyebrow">Kết quả ${examMode?"thi thử":"luyện tập"}</div><div class="score">${correct}/${total}</div><h2>${pct}% chính xác</h2><p>${message}</p><div class="result-breakdown"><span>Đúng: ${correct}</span><span>Sai/chưa làm: ${total-correct}</span><span>Chủ đề: ${examMode?"Tổng hợp":esc(lessons.find(l=>l.id===currentLesson).title)}</span></div><button class="btn primary" id="reviewBtn">Xem lại từng câu</button> <button class="btn" id="againBtn">Làm lại</button></section>`;
+ $("#reviewBtn").onclick=()=>{finished=false;index=0;render();};
+ $("#againBtn").onclick=()=>{answers={};index=0;finished=false;render();};
+}
+
+$("#pinyinToggle").onchange=e=>{showPy=e.target.checked;render();};
+$("#translationToggle").onchange=e=>{showVi=e.target.checked;render();};
+$("#mixBtn").onclick=()=>{randomMode=true;examMode=false;currentLesson=1;questions=lessons.flatMap(l=>flatLesson(l.id)).sort(()=>Math.random()-.5).slice(0,10);index=0;answers={};finished=false;$("#modePill").textContent="Luyện ngẫu nhiên";render();};
+$("#examBtn").onclick=()=>{randomMode=false;examMode=true;currentLesson=1;questions=lessons.flatMap(l=>flatLesson(l.id)).sort(()=>Math.random()-.5).slice(0,20);index=0;answers={};finished=false;render();};
+$("#resetBtn").onclick=()=>{if(confirm("Làm lại từ đầu? Các đáp án hiện tại sẽ bị xóa.")){answers={};draft={};index=0;finished=false;render();}};
+
+function switchView(v){
+ view=v;
+ $("#tabQuiz").classList.toggle("active",v==="quiz");
+ $("#tabDict").classList.toggle("active",v==="dict");
+ $("#quizView").classList.toggle("hidden",v!=="quiz");
+ $("#quizTools").classList.toggle("hidden",v!=="quiz");
+ $("#dictView").classList.toggle("hidden",v!=="dict");
+ if(v==="dict")renderDict();
+}
+
+function renderDict(){
+ const l=lessons.find(x=>x.id===currentLesson);
+ const q=searchQuery.trim().toLowerCase();
+ let entries=[];
+ if(dictAll||q){lessons.forEach(ls=>(ls.vocab||[]).forEach(e=>entries.push({hz:e.hz,py:e.py,vi:e.vi,les:ls.id,lesTitle:ls.title})));}
+ else{entries=(l.vocab||[]).map(e=>({hz:e.hz,py:e.py,vi:e.vi,les:l.id,lesTitle:l.title}));}
+ if(q)entries=entries.filter(e=>(e.hz+" "+e.py+" "+e.vi).toLowerCase().includes(q));
+ const scope=q?(dictAll?"tất cả các bài":"toàn bộ từ điển"):(dictAll?"tất cả các bài":`bài ${l.id} · ${esc(l.title)}`);
+ let html=`<div style="display:flex;flex-wrap:wrap;gap:8px;justify-content:space-between;align-items:center;margin-bottom:12px"><div><h2 style="margin:0">Từ điển HSK 1</h2><p class="hintline" style="margin:4px 0 0">${entries.length} từ — ${q?`kết quả cho “${esc(searchQuery.trim())}” (${scope})`:scope}</p></div><label class="toggle" style="flex:none"><input type="checkbox" id="dictAllChk" ${dictAll?"checked":""}> Tra tất cả</label></div>`;
+ if(entries.length){
+  html+='<div class="vocab-grid">'+entries.map(e=>`<div class="vocab-item"><div class="vz">${hlText(e.hz,q)}</div><div class="vp">${hlText(e.py,q)}</div><div class="vv">${hlText(e.vi,q)}</div><div class="vles">Bài ${e.les} · ${esc(e.lesTitle)}</div></div>`).join("")+'</div>';
+ }else{
+  html+='<p class="hintline" style="text-align:center;padding:16px">Không tìm thấy từ nào khớp. Thử từ khóa khác hoặc bật “Tra tất cả”.</p>';
+ }
+ $("#dictView").innerHTML=`<div class="card">${html}</div>`;
+ if($("#dictAllChk"))$("#dictAllChk").onchange=e=>{dictAll=e.target.checked;renderDict();};
+}
+
+$("#tabQuiz").onclick=()=>switchView("quiz");
+$("#tabDict").onclick=()=>switchView("dict");
+$("#searchInput").oninput=e=>{searchQuery=e.target.value;if(view!=="dict")switchView("dict");else renderDict();};
+$("#searchInput").onkeydown=e=>{if(e.key==="Escape"){e.target.value="";searchQuery="";renderDict();}};
+
+$("#saveBtn").onclick=()=>{
+ const payload={version:1,answers,examMode,randomMode,currentLesson,index,finished,questionKeys:questions.map(q=>q.key)};
+ const json=JSON.stringify(payload).replace(/</g,"\\u003c");
+ const clone=document.documentElement.cloneNode(true);
+ const script=document.createElement("script");script.id="savedState";script.type="application/json";script.textContent=json;
+ clone.querySelector("body").appendChild(script);
+ const blob=new Blob(["<!doctype html>\n"+clone.outerHTML],{type:"text/html;charset=utf-8"});
+ const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="hsk1-mobile-full.html";a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000);
+};
+
+const saved=document.getElementById("savedState");
+if(saved){try{const s=JSON.parse(saved.textContent);examMode=s.examMode;randomMode=!!s.randomMode;currentLesson=s.currentLesson;questions=(examMode||randomMode)?lessons.flatMap(l=>flatLesson(l.id)).filter(q=>s.questionKeys.includes(q.key)):flatLesson(currentLesson);if(examMode||randomMode)questions.sort((a,b)=>s.questionKeys.indexOf(a.key)-s.questionKeys.indexOf(b.key));answers=s.answers||{};index=Math.min(s.index||0,questions.length-1);finished=!!s.finished;}catch(e){questions=flatLesson(1);}}
+else{questions=flatLesson(1);}
+render();
+</script>
+</body>
+</html>
