@@ -379,6 +379,7 @@ const letters=["A","B","C","D"];
 function shuffleArray(arr) {
   const result = arr.slice();
 
+  // Fisher–Yates: xáo trộn ngẫu nhiên, không sửa mảng gốc.
   for (let i = result.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
     [result[i], result[j]] = [result[j], result[i]];
@@ -387,28 +388,36 @@ function shuffleArray(arr) {
   return result;
 }
 
+// Mỗi lần tạo bộ câu hỏi, trộn các lựa chọn và cập nhật lại chỉ số đáp án đúng.
+function flatLesson(id) {
+  const lesson = lessons.find(x => x.id === id);
+  if (!lesson) return [];
 
-  // Chỉ trộn các câu trắc nghiệm có mảng options.
-  if (Array.isArray(q.options) && Number.isInteger(q.answer)) {
-    const shuffled = shuffleArray(
-      q.options.map((option, originalIndex) => ({
-        option,
-        originalIndex
-      }))
-    );
+  return lesson.qs.map((q, i) => {
+    const item = {
+      ...q,
+      lessonId: id,
+      localIndex: i,
+      key: `${id}-${i}`
+    };
 
-    item.options = shuffled.map(x => x.option);
+    if (Array.isArray(q.options) && Number.isInteger(q.answer)) {
+      const shuffled = shuffleArray(
+        q.options.map((option, originalIndex) => ({
+          option,
+          originalIndex
+        }))
+      );
 
-    // Cập nhật vị trí đáp án đúng sau khi trộn.
-    item.answer = shuffled.findIndex(
-      x => x.originalIndex === q.answer
-    );
-  }
+      item.options = shuffled.map(entry => entry.option);
+      item.answer = shuffled.findIndex(
+        entry => entry.originalIndex === q.answer
+      );
+    }
 
-  return item;
-});
-
-
+    return item;
+  });
+}
 
 function buildLessonList(){
  const el=$("#lessonList");el.innerHTML="";
