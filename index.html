@@ -375,7 +375,48 @@ let showPy=false, showVi=true;
 let view="quiz", searchQuery="", dictAll=false, draft={};
 const letters=["A","B","C","D"];
 
-function flatLesson(id){return lessons.find(x=>x.id===id).qs.map((q,i)=>({...q,lessonId:id,localIndex:i,key:`${id}-${i}`}));}
+
+function shuffleArray(arr) {
+  const result = arr.slice();
+
+  for (let i = result.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [result[i], result[j]] = [result[j], result[i]];
+  }
+
+  return result;
+}
+
+function flatLesson(id) {
+  return lessons.find(x => x.id === id).qs.map((q, i) => {
+    const item = {
+      ...q,
+      lessonId: id,
+      localIndex: i,
+      key: `${id}-${i}`
+    };
+
+    // Chỉ trộn các câu trắc nghiệm có mảng options.
+    if (Array.isArray(q.options) && Number.isInteger(q.answer)) {
+      const shuffled = shuffleArray(
+        q.options.map((option, originalIndex) => ({
+          option,
+          originalIndex
+        }))
+      );
+
+      item.options = shuffled.map(x => x.option);
+
+      // Cập nhật vị trí đáp án đúng sau khi trộn.
+      item.answer = shuffled.findIndex(
+        x => x.originalIndex === q.answer
+      );
+    }
+
+    return item;
+  });
+}
+
 
 function buildLessonList(){
  const el=$("#lessonList");el.innerHTML="";
