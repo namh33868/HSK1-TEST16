@@ -379,7 +379,7 @@ const letters=["A","B","C","D"];
 function shuffleArray(arr) {
   const result = arr.slice();
 
-  // Fisher–Yates: xáo trộn ngẫu nhiên, không sửa mảng gốc.
+  // Fisher–Yates shuffle.
   for (let i = result.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
     [result[i], result[j]] = [result[j], result[i]];
@@ -388,7 +388,7 @@ function shuffleArray(arr) {
   return result;
 }
 
-// Mỗi lần tạo bộ câu hỏi, trộn các lựa chọn và cập nhật lại chỉ số đáp án đúng.
+// Tạo bản câu hỏi mới mỗi lần tải trang, trộn đáp án nhưng giữ đúng đáp án.
 function flatLesson(id) {
   const lesson = lessons.find(x => x.id === id);
   if (!lesson) return [];
@@ -401,13 +401,20 @@ function flatLesson(id) {
       key: `${id}-${i}`
     };
 
-    if (Array.isArray(q.options) && Number.isInteger(q.answer)) {
-      const shuffled = shuffleArray(
-        q.options.map((option, originalIndex) => ({
-          option,
-          originalIndex
-        }))
-      );
+    if (Array.isArray(q.options) && Number.isInteger(q.answer) &&
+        q.answer >= 0 && q.answer < q.options.length &&
+        q.options.length > 1) {
+      const original = q.options.map((option, originalIndex) => ({
+        option,
+        originalIndex
+      }));
+
+      let shuffled = shuffleArray(original);
+
+      // Đảm bảo thứ tự không vô tình giữ nguyên như dữ liệu gốc.
+      if (shuffled.every((entry, index) => entry.originalIndex === index)) {
+        shuffled.push(shuffled.shift());
+      }
 
       item.options = shuffled.map(entry => entry.option);
       item.answer = shuffled.findIndex(
