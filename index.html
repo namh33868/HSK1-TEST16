@@ -387,35 +387,27 @@ function shuffleArray(arr) {
   return result;
 }
 
-function flatLesson(id) {
-  return lessons.find(x => x.id === id).qs.map((q, i) => {
-    const item = {
-      ...q,
-      lessonId: id,
-      localIndex: i,
-      key: `${id}-${i}`
-    };
 
-    // Chỉ trộn các câu trắc nghiệm có mảng options.
-    if (Array.isArray(q.options) && Number.isInteger(q.answer)) {
-      const shuffled = shuffleArray(
-        q.options.map((option, originalIndex) => ({
-          option,
-          originalIndex
-        }))
-      );
+  // Chỉ trộn các câu trắc nghiệm có mảng options.
+  if (Array.isArray(q.options) && Number.isInteger(q.answer)) {
+    const shuffled = shuffleArray(
+      q.options.map((option, originalIndex) => ({
+        option,
+        originalIndex
+      }))
+    );
 
-      item.options = shuffled.map(x => x.option);
+    item.options = shuffled.map(x => x.option);
 
-      // Cập nhật vị trí đáp án đúng sau khi trộn.
-      item.answer = shuffled.findIndex(
-        x => x.originalIndex === q.answer
-      );
-    }
+    // Cập nhật vị trí đáp án đúng sau khi trộn.
+    item.answer = shuffled.findIndex(
+      x => x.originalIndex === q.answer
+    );
+  }
 
-    return item;
-  });
-}
+  return item;
+});
+
 
 
 function buildLessonList(){
